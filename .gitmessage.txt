@@ -1,0 +1,9 @@
+:gitmoji: tipo(escopo): breve descrição em português
+
+Detalhes:
+- Explique rapidamente o que foi alterado
+- Inclua contexto se necessário
+
+Referências:
+- closes #
+- refs #
