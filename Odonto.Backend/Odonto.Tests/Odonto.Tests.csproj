@@ -6,8 +6,4 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\Odonto.Domain\Odonto.Domain.csproj" />
-    </ItemGroup>
-
 </Project>

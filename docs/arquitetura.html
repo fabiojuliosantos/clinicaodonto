@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Odonto — Documentação de Arquitetura</title>
+<style>
+  :root {
+    --bg: #f7f5f0;
+    --bg-panel: #ffffff;
+    --ink: #1c2521;
+    --ink-soft: #4a564f;
+    --line: #dcd5c7;
+    --accent: #2f5d50;
+    --accent-soft: #e4ede9;
+    --code-bg: #1c2521;
+    --code-ink: #e9e4d8;
+    --warn-bg: #fbeee4;
+    --warn-line: #c87f4a;
+    --mono: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.6;
+    font-size: 16px;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    min-height: 100vh;
+  }
+
+  /* ---------- SIDEBAR ---------- */
+  nav.sidebar {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    background: var(--bg-panel);
+    border-right: 1px solid var(--line);
+    padding: 2rem 1.5rem;
+  }
+
+  .brand {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .brand-mark {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 1.4rem;
+    color: var(--accent);
+  }
+
+  .brand-sub {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-soft);
+  }
+
+  .meta-line {
+    font-size: 0.75rem;
+    color: var(--ink-soft);
+    margin-bottom: 2rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .nav-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .nav-group-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .nav-group a {
+    display: block;
+    padding: 0.3rem 0;
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 0.875rem;
+    border-left: 2px solid transparent;
+    padding-left: 0.6rem;
+    margin-left: -0.6rem;
+    transition: border-color 0.15s, color 0.15s;
+  }
+
+  .nav-group a:hover,
+  .nav-group a:focus-visible {
+    color: var(--accent);
+    border-left-color: var(--accent);
+  }
+
+  /* ---------- MAIN ---------- */
+  main {
+    padding: 3.5rem 4rem 6rem;
+    max-width: 880px;
+  }
+
+  section {
+    margin-bottom: 4rem;
+    scroll-margin-top: 2rem;
+  }
+
+  .eyebrow {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  h1 {
+    font-family: var(--serif);
+    font-size: 2.6rem;
+    line-height: 1.15;
+    margin: 0 0 0.75rem;
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  h1 .accent { color: var(--accent); font-style: italic; }
+
+  .lede {
+    font-size: 1.15rem;
+    color: var(--ink-soft);
+    max-width: 60ch;
+    margin-bottom: 0;
+  }
+
+  h2 {
+    font-family: var(--serif);
+    font-size: 1.7rem;
+    color: var(--ink);
+    margin: 0 0 1.25rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--line);
+    font-weight: 600;
+  }
+
+  h3 {
+    font-family: var(--sans);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 1.75rem 0 0.6rem;
+  }
+
+  p { color: var(--ink-soft); margin: 0 0 1rem; }
+  p strong { color: var(--ink); }
+
+  code {
+    font-family: var(--mono);
+    background: var(--accent-soft);
+    color: var(--accent);
+    padding: 0.1rem 0.4rem;
+    border-radius: 3px;
+    font-size: 0.88em;
+  }
+
+  pre {
+    background: var(--code-bg);
+    color: var(--code-ink);
+    padding: 1.25rem 1.5rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    line-height: 1.65;
+    margin: 1rem 0 1.5rem;
+  }
+
+  pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    font-size: 1em;
+  }
+
+  /* ---------- ARCH DIAGRAM ---------- */
+  .arch-diagram {
+    background: var(--bg-panel);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 2rem;
+    margin: 1.5rem 0 2rem;
+  }
+
+  .arch-row {
+    display: flex;
+    align-items: stretch;
+    gap: 0.75rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .arch-box {
+    flex: 1 1 160px;
+    min-width: 140px;
+    background: var(--accent-soft);
+    border: 1px solid var(--accent);
+    border-radius: 6px;
+    padding: 1rem 0.9rem;
+    text-align: center;
+  }
+
+  .arch-box.domain {
+    background: var(--accent);
+    color: #fff;
+  }
+
+  .arch-box .layer-name {
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: 0.85rem;
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+
+  .arch-box .layer-desc {
+    font-size: 0.75rem;
+    opacity: 0.85;
+  }
+
+  .arch-arrow {
+    display: flex;
+    align-items: center;
+    color: var(--accent);
+    font-size: 1.3rem;
+    font-family: var(--mono);
+  }
+
+  .arch-rule {
+    text-align: center;
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px dashed var(--line);
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+  }
+
+  /* ---------- TABLE ---------- */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0 2rem;
+    font-size: 0.9rem;
+  }
+
+  th {
+    text-align: left;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+    border-bottom: 2px solid var(--accent);
+    padding: 0.6rem 0.8rem;
+  }
+
+  td {
+    padding: 0.65rem 0.8rem;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink-soft);
+    vertical-align: top;
+  }
+
+  td:first-child, td code {
+    color: var(--ink);
+  }
+
+  tr:hover td { background: var(--accent-soft); }
+
+  /* ---------- CALLOUTS ---------- */
+  .callout {
+    border-left: 3px solid var(--accent);
+    background: var(--accent-soft);
+    padding: 1rem 1.25rem;
+    border-radius: 0 6px 6px 0;
+    margin: 1.25rem 0;
+  }
+
+  .callout p { margin: 0; color: var(--ink); font-size: 0.92rem; }
+  .callout p + p { margin-top: 0.5rem; }
+
+  .callout.warn {
+    border-left-color: var(--warn-line);
+    background: var(--warn-bg);
+  }
+
+  .callout .label {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+
+  .callout.warn .label { color: var(--warn-line); }
+
+  /* ---------- LIFECYCLE ---------- */
+  .lifecycle {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 1.5rem 0;
+    font-family: var(--mono);
+    font-size: 0.82rem;
+  }
+
+  .state {
+    background: var(--bg-panel);
+    border: 1px solid var(--line);
+    padding: 0.5rem 0.9rem;
+    border-radius: 4px;
+    color: var(--ink);
+  }
+
+  .state.start { border-color: var(--accent); color: var(--accent); font-weight: 700; }
+  .state.terminal { border-style: dashed; color: var(--ink-soft); }
+
+  .lc-arrow { color: var(--ink-soft); }
+
+  /* ---------- GLOSSARY GRID ---------- */
+  .glossary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem 2rem;
+  }
+
+  .gloss-item {
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 0.75rem;
+  }
+
+  .gloss-item dt {
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 0.2rem;
+  }
+
+  .gloss-item dd {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 0.88rem;
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer {
+    border-top: 1px solid var(--line);
+    padding-top: 1.5rem;
+    margin-top: 4rem;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+  }
+
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+    nav.sidebar { position: relative; height: auto; }
+    main { padding: 2rem 1.5rem 4rem; }
+    .glossary { grid-template-columns: 1fr; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <nav class="sidebar" aria-label="Navegação da documentação">
+    <div class="brand">
+      <span class="brand-mark">Odonto</span>
+    </div>
+    <div class="brand-sub">Documentação técnica</div>
+    <div class="meta-line">Backend · .NET 10 · Clean Architecture</div>
+
+    <div class="nav-group">
+      <div class="nav-group-label">Visão geral</div>
+      <a href="#introducao">Introdução</a>
+      <a href="#arquitetura">Arquitetura em camadas</a>
+      <a href="#stack">Stack e padrões</a>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-group-label">Domínio</div>
+      <a href="#linguagem-ubiqua">Linguagem ubíqua</a>
+      <a href="#agendamento">Ciclo de vida do Agendamento</a>
+      <a href="#estoque">Módulo de Estoque</a>
+      <a href="#fora-de-escopo">Fora de escopo</a>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-group-label">Convenções</div>
+      <a href="#nomenclatura">Nomenclatura</a>
+      <a href="#testes">Testes</a>
+      <a href="#commits">Commits</a>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-group-label">Operação</div>
+      <a href="#ambiente">Ambiente</a>
+      <a href="#regra-trabalho">Regra de trabalho com IA</a>
+    </div>
+  </nav>
+
+  <main>
+
+    <section id="introducao">
+      <p class="eyebrow">Sistema de gestão clínica</p>
+      <h1>Arquitetura do <span class="accent">Odonto</span></h1>
+      <p class="lede">
+        Sistema de controle interno de uma clínica odontológica. O escopo
+        atual cobre gestão clínica e controle de estoque de insumos —
+        pagamento, convênio e plano de saúde são features futuras e não
+        fazem parte do modelo de domínio hoje.
+      </p>
+    </section>
+
+    <section id="arquitetura">
+      <h2>Arquitetura em camadas</h2>
+      <p>
+        O backend (solution <code>Odonto.Backend</code>) segue Clean
+        Architecture com quatro camadas. A regra de dependência é estrita:
+        o Domínio não conhece nenhuma camada externa — é o centro estável
+        do sistema, e tudo aponta para ele.
+      </p>
+
+      <div class="arch-diagram">
+        <div class="arch-row">
+          <div class="arch-box">
+            <span class="layer-name">Odonto.API</span>
+            <span class="layer-desc">Controllers, DI, configuração</span>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-box">
+            <span class="layer-name">Odonto.Application</span>
+            <span class="layer-desc">Services, DTOs, casos de uso</span>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-box domain">
+            <span class="layer-name">Odonto.Domain</span>
+            <span class="layer-desc">Entidades, regras, interfaces</span>
+          </div>
+          <div class="arch-arrow">←</div>
+          <div class="arch-box">
+            <span class="layer-name">Odonto.Infrastructure</span>
+            <span class="layer-desc">EF Core, repositórios</span>
+          </div>
+        </div>
+        <div class="arch-rule">Domain não depende de ninguém — todas as setas apontam para ele</div>
+      </div>
+
+      <h3>Odonto.Domain</h3>
+      <p>
+        Entidades, agregados, value objects, enums, regras de negócio e
+        <strong>interfaces de repositório</strong>. Zero dependência de
+        framework — nenhuma referência a EF Core, ASP.NET ou qualquer
+        biblioteca externa.
+      </p>
+
+      <h3>Odonto.Application</h3>
+      <p>
+        Casos de uso implementados como Services, orquestração entre
+        agregados, DTOs e interfaces de serviços externos. Depende apenas
+        do Domain.
+      </p>
+
+      <h3>Odonto.Infrastructure</h3>
+      <p>
+        Implementação concreta com EF Core: repositórios, migrations,
+        integrações externas. Implementa as interfaces definidas em
+        Domain e Application — nunca o contrário.
+      </p>
+
+      <h3>Odonto.API</h3>
+      <p>
+        Ponto de entrada: Controllers, injeção de dependência,
+        configuração da aplicação.
+      </p>
+
+      <div class="callout warn">
+        <span class="label">Erro de arquitetura</span>
+        <p>
+          Domain referenciando EF Core (ou qualquer framework) é uma
+          violação direta da regra de dependência e deve ser apontado em
+          code review, independentemente do motivo alegado.
+        </p>
+      </div>
+    </section>
+
+    <section id="stack">
+      <h2>Stack e padrões</h2>
+      <table>
+        <thead>
+          <tr><th>Decisão</th><th>Escolha</th><th>Observação</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>API</td>
+            <td><code>Controllers</code></td>
+            <td>Não usar Minimal API</td>
+          </tr>
+          <tr>
+            <td>Camada de aplicação</td>
+            <td>Services simples</td>
+            <td>Sem CQRS/MediatR — fluxo de leitura simples não justifica a cerimônia</td>
+          </tr>
+          <tr>
+            <td>Acesso a dados</td>
+            <td>EF Core</td>
+            <td>Com migrations</td>
+          </tr>
+          <tr>
+            <td>Repositórios</td>
+            <td>Repository por agregado</td>
+            <td>Interface no Domain, implementação na Infrastructure</td>
+          </tr>
+          <tr>
+            <td>Validação</td>
+            <td>FluentValidation</td>
+            <td>Sempre na camada Application</td>
+          </tr>
+          <tr>
+            <td>Mapeamento</td>
+            <td>Manual</td>
+            <td>Sem AutoMapper</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="linguagem-ubiqua">
+      <h2>Linguagem ubíqua</h2>
+      <p>
+        O vocabulário do código segue o vocabulário do negócio, em
+        português. Cada termo abaixo tem <strong>um único nome canônico</strong>
+        em todas as camadas — do Domain ao DTO, ao endpoint, à tabela.
+        Traduções parciais não são aceitas.
+      </p>
+
+      <dl class="glossary">
+        <div class="gloss-item">
+          <dt>Paciente</dt>
+          <dd>Quem é atendido. Nome, Cpf, DataNascimento, Telefone, Email.</dd>
+        </div>
+        <div class="gloss-item">
+          <dt>Dentista</dt>
+          <dd>Profissional. Nome, Cro, Especialidade.</dd>
+        </div>
+        <div class="gloss-item">
+          <dt>Especialidade</dt>
+          <dd>Área de atuação — ex.: Ortodontia, Endodontia.</dd>
+        </div>
+        <div class="gloss-item">
+          <dt>Agendamento</dt>
+          <dd>Marcação de horário. Paciente, Dentista, DataHora, Situacao.</dd>
+        </div>
+        <div class="gloss-item">
+          <dt>Consulta</dt>
+          <dd>Atendimento realizado — criada quando um Agendamento é realizado.</dd>
+        </div>
+        <div class="gloss-item">
+          <dt>Procedimento</dt>
+          <dd>O que é feito. Nome, Valor, Duracao.</dd>
+        </div>
+        <div class="gloss-item">
+          <dt>Prontuario</dt>
+          <dd>Histórico clínico do paciente — registros das consultas.</dd>
+        </div>
+        <div class="gloss-item">
+          <dt>PlanoTratamento</dt>
+          <dd>Procedimentos planejados. Paciente, Procedimentos, Situacao.</dd>
+        </div>
+        <div class="gloss-item">
+          <dt>Insumo</dt>
+          <dd>Item consumível de estoque. Nome, Unidade, QuantidadeEstoque, EstoqueMinimo.</dd>
+        </div>
+        <div class="gloss-item">
+          <dt>MovimentacaoEstoque</dt>
+          <dd>Entrada/saída de insumo. Insumo, Tipo, Quantidade, Data.</dd>
+        </div>
+      </dl>
+    </section>
+
+    <section id="agendamento">
+      <h2>Ciclo de vida do Agendamento</h2>
+      <p>
+        <code>Agendamento</code> e <code>Consulta</code> são conceitos
+        separados. O atendente marca o horário — gerando um Agendamento —
+        e depois sinaliza o desfecho através das transições de estado.
+      </p>
+
+      <div class="lifecycle">
+        <span class="state start">Agendado</span>
+        <span class="lc-arrow">→ Confirmar() →</span>
+        <span class="state">Confirmado</span>
+        <span class="lc-arrow">→ Realizar() →</span>
+        <span class="state terminal">Realizado</span>
+      </div>
+      <div class="lifecycle">
+        <span class="lc-arrow" style="margin-left: 0;">também pode ir para</span>
+        <span class="state terminal">Remarcado</span>
+        <span class="lc-arrow">/</span>
+        <span class="state terminal">Cancelado</span>
+        <span class="lc-arrow">a partir de qualquer estado não-terminal</span>
+      </div>
+
+      <p>
+        Quando <code>Realizar()</code> é chamado, uma <code>Consulta</code>
+        é gerada e vinculada ao Agendamento. Essa é a única forma válida de
+        criação de uma Consulta no sistema.
+      </p>
+    </section>
+
+    <section id="estoque">
+      <h2>Módulo de Estoque de Insumos</h2>
+      <div class="callout warn">
+        <span class="label">Modelagem a confirmar</span>
+        <p>
+          Módulo novo. O objetivo é saber o que precisa ser comprado, mas a
+          modelagem abaixo é uma suposição inicial — <strong>confirmar com
+          o desenvolvedor antes de implementar.</strong>
+        </p>
+      </div>
+      <p>
+        <code>Insumo</code> possui <code>QuantidadeEstoque</code> e
+        <code>EstoqueMinimo</code>. Quando
+        <code>QuantidadeEstoque &lt;= EstoqueMinimo</code>, o item entra na
+        lista de reposição.
+      </p>
+      <p>
+        <code>MovimentacaoEstoque</code> registra entrada (compra) e saída
+        (consumo), através do enum
+        <code>TipoMovimentacao { Entrada, Saida }</code>.
+      </p>
+    </section>
+
+    <section id="fora-de-escopo">
+      <h2>Fora de escopo</h2>
+      <p>
+        Convênio, plano de saúde, pagamento e faturamento. Não modelar
+        essas áreas no estado atual do sistema, mesmo que pareçam
+        naturalmente relacionadas a Procedimento ou PlanoTratamento.
+      </p>
+    </section>
+
+    <section id="nomenclatura">
+      <h2>Convenções de nomenclatura</h2>
+
+      <h3>Português no domínio, inglês na plataforma</h3>
+      <p>
+        Entidades, value objects, enums e métodos de regra de negócio são
+        em português (<code>Paciente</code>,
+        <code>Agendamento.Confirmar()</code>,
+        <code>SituacaoAgendamento.Cancelado</code>). Sufixos de padrão
+        técnico e membros de infraestrutura ficam em inglês
+        (<code>Repository</code>, <code>Service</code>,
+        <code>Validator</code>, <code>Controller</code>, <code>Dto</code>,
+        <code>Id</code>, <code>CreatedAt</code>, <code>UpdatedAt</code>).
+      </p>
+
+      <h3>Verbos canônicos</h3>
+      <table>
+        <thead><tr><th>Categoria</th><th>Verbos</th><th>Exemplo</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>CRUD</td>
+            <td><code>Criar</code>, <code>Atualizar</code>, <code>Remover</code>, <code>Obter</code>, <code>Listar</code></td>
+            <td><code>CriarPacienteService</code>, <code>ListarAgendamentosService</code></td>
+          </tr>
+          <tr>
+            <td>Regra de negócio</td>
+            <td><code>Confirmar</code>, <code>Cancelar</code>, <code>Remarcar</code>, <code>Realizar</code></td>
+            <td><code>Agendamento.Confirmar()</code></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Acentuação</h3>
+      <p>
+        Sem acento em identificadores de código
+        (<code>Situacao</code>, <code>Prontuario</code>,
+        <code>Procedimento</code>). Acento é reservado para strings
+        voltadas ao usuário final.
+      </p>
+    </section>
+
+    <section id="testes">
+      <h2>Testes</h2>
+      <table>
+        <thead><tr><th>Aspecto</th><th>Padrão</th></tr></thead>
+        <tbody>
+          <tr><td>Framework</td><td><code>xUnit</code></td></tr>
+          <tr><td>Asserções</td><td><code>FluentAssertions</code></td></tr>
+          <tr><td>Mocks</td><td><code>NSubstitute</code></td></tr>
+          <tr>
+            <td>Estrutura</td>
+            <td>Projetos espelho — <code>Odonto.Domain.Tests</code>, <code>Odonto.Application.Tests</code></td>
+          </tr>
+          <tr>
+            <td>Nomenclatura</td>
+            <td><code>Metodo_Cenario_ResultadoEsperado</code>, em português</td>
+          </tr>
+        </tbody>
+      </table>
+      <pre><code>// Confirmar_QuandoJaCancelado_DeveLancarExcecao
+[Fact]
+public void Confirmar_QuandoJaCancelado_DeveLancarExcecao()
+{
+    // Arrange
+    var agendamento = AgendamentoFixture.Cancelado();
+
+    // Act
+    var acao = () => agendamento.Confirmar();
+
+    // Assert
+    acao.Should().Throw&lt;InvalidOperationException&gt;();
+}</code></pre>
+    </section>
+
+    <section id="commits">
+      <h2>Commits</h2>
+      <p>
+        Conventional Commits, com <strong>tipo em inglês</strong> e
+        <strong>descrição em português</strong>, no imperativo.
+      </p>
+      <pre><code>feat: adiciona agendamento de consulta
+fix: corrige cálculo de duração do procedimento
+test: adiciona testes do agregado Agendamento
+refactor: extrai validação de Cpf para value object
+chore: atualiza pacote do EF Core
+docs: documenta regra de ciclo de vida do agendamento</code></pre>
+      <p>Tipos válidos: <code>feat</code>, <code>fix</code>, <code>test</code>, <code>chore</code>, <code>refactor</code>, <code>docs</code>.</p>
+    </section>
+
+    <section id="ambiente">
+      <h2>Ambiente</h2>
+      <p>
+        <strong>.NET 10.</strong> Autenticação Git via <strong>SSH</strong>
+        — não usar Personal Access Token nem HTTPS com senha. A solution
+        fica em <code>Odonto.Backend/</code>; <code>obj/</code>,
+        <code>bin/</code> e <code>.idea/</code> são ignorados pelo Git.
+      </p>
+    </section>
+
+    <section id="regra-trabalho">
+      <h2>Regra de trabalho com assistentes de IA</h2>
+      <div class="callout">
+        <span class="label">Regra fundamental</span>
+        <p>
+          Assistentes de IA não devem desenvolver código de produção por
+          conta própria. Sem um pedido explícito do desenvolvedor para
+          implementar uma funcionalidade, a atuação deve se limitar a:
+          revisar código, criar testes, gerar mensagens de commit e
+          responder dúvidas.
+        </p>
+        <p>
+          Em caso de dúvida sobre se uma tarefa envolve escrever código de
+          produção, a IA deve perguntar antes de agir.
+        </p>
+      </div>
+    </section>
+
+    <footer>
+      Odonto.Backend — documentação gerada a partir das guidelines do projeto (<code>.junie/guidelines.md</code>).
+    </footer>
+
+  </main>
+</div>
+</body>
+</html>

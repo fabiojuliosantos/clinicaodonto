@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Odonto.Infrastructure", "Od
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Odonto.API", "Odonto.API\Odonto.API.csproj", "{3BDA7CD4-9587-409E-AB7B-C0261DF069AD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Odonto.Tests", "Odonto.Tests\Odonto.Tests.csproj", "{244649C8-E739-48A2-9D41-4D153CB33993}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{3BDA7CD4-9587-409E-AB7B-C0261DF069AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BDA7CD4-9587-409E-AB7B-C0261DF069AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3BDA7CD4-9587-409E-AB7B-C0261DF069AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{244649C8-E739-48A2-9D41-4D153CB33993}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{244649C8-E739-48A2-9D41-4D153CB33993}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{244649C8-E739-48A2-9D41-4D153CB33993}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{244649C8-E739-48A2-9D41-4D153CB33993}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
