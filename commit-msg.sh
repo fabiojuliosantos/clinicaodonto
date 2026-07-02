@@ -2,17 +2,17 @@
 #
 # commit-msg.sh — Gera uma mensagem de commit (Conventional Commits) para as
 # mudanças staged, usando Ollama + .junie/guidelines.md +
-# .junie/skills/commit/SKILL.md. NÃO executa o commit — só sugere a mensagem.
+# .junie/skills/commit/SKILL.md. Pede confirmação e executa o git commit.
 #
 # Uso:
 #   git add <arquivos>
 #   ./commit-msg.sh
 #
-# Requer: git, ollama (com o modelo já baixado, ex: qwen2.5-coder:7b)
+# Requer: git, ollama (com o modelo já baixado, ex: qwen2.5-coder:14b)
 
 set -euo pipefail
 
-MODEL="${OLLAMA_MODEL:-qwen2.5-coder:14}"
+MODEL="${OLLAMA_MODEL:-qwen2.5-coder:14b}"
 REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 GUIDELINES="$REPO_ROOT/.junie/guidelines.md"
 SKILL="$REPO_ROOT/.junie/skills/commit/SKILL.md"
@@ -60,4 +60,21 @@ trap 'rm -f "$PROMPT_FILE"' EXIT
 echo "Gerando mensagem de commit com $MODEL..."
 echo
 
-ollama run "$MODEL" < "$PROMPT_FILE"
+MSG="$(ollama run "$MODEL" < "$PROMPT_FILE")"
+
+echo
+echo "Mensagem sugerida:"
+echo "──────────────────────────────────────"
+echo "$MSG"
+echo "──────────────────────────────────────"
+echo
+
+read -rp "Deseja commitar com essa mensagem? [s/N] " CONFIRM
+
+if [[ "${CONFIRM,,}" == "s" ]]; then
+  git -C "$REPO_ROOT" commit -m "$MSG"
+  echo
+  echo "Commit realizado. Rode 'git push' quando estiver pronto."
+else
+  echo "Commit cancelado. Mensagem copiada acima para uso manual."
+fi
