@@ -1,6 +1,9 @@
+using Odonto.IoC.DI;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.ResolveDependecies(builder.Configuration);
 
 // Add services to the container.
 
