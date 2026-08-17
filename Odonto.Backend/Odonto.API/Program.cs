@@ -3,7 +3,7 @@ using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.ResolveDependecies(builder.Configuration);
+builder.Services.ResolveDependencies(builder.Configuration);
 
 // Add services to the container.
 
