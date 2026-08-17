@@ -15,7 +15,7 @@ public static class DependencyInjection
     {
         ArgumentNullException.ThrowIfNull(services);
         ArgumentNullException.ThrowIfNull(configuration);
-
+        
         var connectionString = configuration.GetConnectionString("SqlServer")
             ?? throw new InvalidOperationException(
                 "A connection string 'ConnectionStrings:SqlServer' nao foi configurada.");
@@ -23,6 +23,8 @@ public static class DependencyInjection
         services.AddDbContext<AppDbContext>(options =>
             options.UseSqlServer(connectionString));
 
+        services.AddDataProtection();
+        
         services
             .AddIdentityCore<AppUser>()
             .AddRoles<IdentityRole>()
