@@ -2,7 +2,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Odonto.Application.Interfaces;
 using Odonto.Infrastructure.Context;
+using Odonto.Infrastructure.Services;
 using Odonto.Infrastructure.User;
 
 namespace Odonto.IoC.DI;
@@ -30,6 +32,10 @@ public static class DependencyInjection
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<AppDbContext>()
             .AddDefaultTokenProviders();
+
+        // O IoC conecta o contrato do Application à implementação da Infrastructure.
+        // Scoped mantém o serviço no mesmo ciclo de vida do DbContext e do UserManager.
+        services.AddScoped<IAutenticacaoService, AutenticacaoService>();
 
         return services;
     }
