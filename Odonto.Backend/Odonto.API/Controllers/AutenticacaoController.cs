@@ -13,10 +13,18 @@ public class AutenticacaoController : ControllerBase
     {
         _autenticacaoService = autenticacaoService;
     }
+
     [HttpPost("cadastrar")]
     public async Task<IActionResult> CadastrarUsuario([FromBody] RegistrarDTO dto)
     {
         var resultado = await _autenticacaoService.CadastrarUsuarioAsync(dto);
+        return Ok(resultado);
+    }
+
+    [HttpPost("login")]
+    public async Task<IActionResult>login([FromBody]LoginDTO dto)
+    {
+        var resultado = await _autenticacaoService.Login(dto);
         return Ok(resultado);
     }
 }
