@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Sistema interno Almeida Estética e Sorriso" />
+    <title>Almeida — Sistema interno</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="dashboard.css" />
+    <link rel="stylesheet" href="soft-calm.css" />
+    <link rel="stylesheet" href="modulo.css" />
+    <link rel="stylesheet" href="notifications.css" />
+    <link rel="stylesheet" href="entity-modal.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" id="sidebar">
+        <a class="sidebar__brand" href="dashboard.html"><img src="assets/almeida-transparente.png" alt="Almeida Estética e Sorriso" /></a>
+        <nav class="main-nav" aria-label="Navegação principal">
+          <p>Principal</p>
+          <a data-page="dashboard" href="dashboard.html"><span class="nav-symbol">⌂</span><span>Visão geral</span></a>
+          <a data-page="agenda" href="modulo.html?page=agenda"><span class="nav-symbol">▦</span><span>Agenda</span><b>8</b></a>
+          <a data-page="pacientes" href="modulo.html?page=pacientes"><span class="nav-symbol">♙</span><span>Pacientes</span></a>
+          <p>Clínica</p>
+          <a data-page="atendimentos" href="modulo.html?page=atendimentos"><span class="nav-symbol">✧</span><span>Atendimentos</span></a>
+          <a data-page="prontuarios" href="modulo.html?page=prontuarios"><span class="nav-symbol">▤</span><span>Prontuários</span></a>
+          <a data-page="financeiro" href="modulo.html?page=financeiro"><span class="nav-symbol">◇</span><span>Financeiro</span></a>
+          <a data-page="relatorios" href="modulo.html?page=relatorios"><span class="nav-symbol">⌁</span><span>Relatórios</span></a>
+          <p>Administração</p>
+          <a data-page="equipe" href="modulo.html?page=equipe"><span class="nav-symbol">♧</span><span>Equipe</span></a>
+          <a data-page="configuracoes" href="modulo.html?page=configuracoes"><span class="nav-symbol">⚙</span><span>Configurações</span></a>
+        </nav>
+        <div class="sidebar__help"><span>?</span><div><strong>Precisa de ajuda?</strong><small>Consulte o guia interno</small></div></div>
+      </aside>
+
+      <main class="workspace">
+        <header class="topbar">
+          <button class="mobile-menu" id="mobile-menu" aria-label="Abrir menu"><span></span><span></span><span></span></button>
+          <div class="search-box"><span>⌕</span><input type="search" id="global-search" placeholder="Buscar paciente, telefone ou CPF..." /><kbd>⌘ K</kbd></div>
+          <div class="topbar__actions">
+            <button class="icon-button" aria-label="Notificações">♢<i></i></button><span class="topbar__divider"></span>
+            <button class="profile-button" id="profile-button" aria-expanded="false"><span class="avatar">JG</span><span class="profile-copy"><strong>Julia Guerra de Almeida</strong><small>Proprietária</small></span><span class="chevron">⌄</span></button>
+            <div class="profile-menu" id="profile-menu"><button>Meu perfil</button><button>Preferências</button><a href="index.html">Sair do sistema</a></div>
+          </div>
+        </header>
+        <div class="module-content" id="module-content"></div>
+      </main>
+    </div>
+    <div class="mobile-overlay" id="mobile-overlay"></div>
+    <div class="toast module-toast" id="module-toast" role="status"><span>✓</span><p></p></div>
+    <script src="modulo.js"></script>
+    <script src="entity-modal.js"></script>
+  </body>
+</html>

@@ -11,6 +11,16 @@
 *.sln.docstates
 *.env
 
+# Frontend / Node.js
+**/node_modules/
+**/dist/
+**/.vite/
+**/coverage/
+**/playwright-report/
+**/test-results/
+.env.local
+.env.*.local
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 

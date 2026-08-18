@@ -1,0 +1,173 @@
+/* Camada visual Soft Calm: baixo contraste, superfícies respiráveis e feedback sereno. */
+:root {
+  --blue: #79acd0;
+  --blue-dark: #4f86aa;
+  --ink: #344b58;
+  --muted: #7d8d93;
+  --line: #e4eae8;
+  --bg: #f3f6f5;
+}
+
+body {
+  background:
+    radial-gradient(circle at 78% 4%, rgba(193, 220, 231, .2), transparent 27rem),
+    var(--bg);
+}
+
+.sidebar {
+  background: rgba(252, 253, 252, .96);
+  border-color: #e7ecea;
+}
+
+.main-nav a {
+  color: #718188;
+  border-radius: 12px;
+}
+
+.main-nav a:hover {
+  background: #f1f6f5;
+}
+
+.main-nav a.active {
+  color: #477e9f;
+  background: #eaf3f6;
+}
+
+.sidebar__help {
+  background: #f2f6f5;
+  border: 1px solid #e7ece9;
+}
+
+.topbar {
+  background: rgba(250, 252, 251, .88);
+  border-color: rgba(218, 226, 224, .82);
+  backdrop-filter: blur(18px) saturate(105%);
+}
+
+.search-box {
+  border-color: #e2e9e7;
+  border-radius: 12px;
+  background: #f3f6f5;
+  transition: background .2s, border-color .2s, box-shadow .2s;
+}
+
+.search-box:focus-within {
+  border-color: #a9c8d8;
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(121, 172, 208, .1);
+}
+
+.avatar {
+  border-radius: 12px;
+  background: linear-gradient(145deg, #8ebbd5, #5b91b5);
+  box-shadow: 0 5px 14px rgba(79, 134, 170, .16);
+}
+
+.profile-menu,
+.panel,
+.metric-card {
+  border-color: #e3eae7;
+  background: rgba(255, 255, 255, .9);
+  box-shadow: 0 7px 24px rgba(52, 75, 88, .045);
+}
+
+.panel,
+.metric-card {
+  border-radius: 16px;
+}
+
+.metric-card {
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.metric-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(52, 75, 88, .07);
+}
+
+.metric-icon,
+.patient-avatar,
+.task-icon {
+  border-radius: 11px;
+}
+
+.primary-button {
+  border-radius: 11px;
+  background: linear-gradient(135deg, #5f96ba, #83b7d7);
+  box-shadow: 0 8px 20px rgba(79, 134, 170, .16);
+}
+
+.welcome-actions a,
+.next-actions a {
+  text-decoration: none;
+}
+
+.next-actions a {
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #dfe7e4;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, .85);
+  color: #63737d;
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.next-actions a.start-button {
+  border-color: #6fa4c5;
+  background: #6fa4c5;
+  color: #fff;
+}
+
+.secondary-button,
+.filter-button,
+.dots,
+.next-actions button {
+  border-color: #dfe7e4;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, .85);
+}
+
+.blue { background: #e9f2f6; color: #5c91b3; }
+.green { background: #eaf3ee; color: #5b957d; }
+.amber { background: #f8f1e5; color: #b58b4d; }
+.purple { background: #f0edf5; color: #83739f; }
+.red { background: #f7eaea; color: #b96d72; }
+
+.appointment.current {
+  background: #f2f7f8;
+  box-shadow: inset 3px 0 #8cb9d2;
+}
+
+.status {
+  font-weight: 600;
+}
+
+.completed { background: #e9f3ee; color: #588b75; }
+.attending { background: #e8f2f7; color: #568baa; }
+.confirmed { background: #edf4f6; color: #668d9e; }
+.pending { background: #f8f1e5; color: #a67f45; }
+
+.patient-alert {
+  border: 1px solid #f0e5d2;
+  border-radius: 11px;
+  background: #faf6ee;
+  color: #927044;
+}
+
+.next-actions .start-button {
+  border-color: #6fa4c5;
+  background: #6fa4c5;
+}
+
+.quick-modal {
+  border: 1px solid rgba(227, 234, 231, .9);
+  border-radius: 19px;
+  box-shadow: 0 25px 70px rgba(45, 67, 78, .18);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .metric-card { transform: none !important; }
+}

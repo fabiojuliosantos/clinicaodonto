@@ -1,0 +1,11 @@
+:root {
+  --font-family-sans: 'DM Sans', system-ui, sans-serif;
+  --color-background: #f3f6f5;
+  --color-surface: #ffffff;
+  --color-text: #344b58;
+  --color-text-muted: #7d8d93;
+  --color-border: #e4eae8;
+  --color-primary: #79acd0;
+  --color-primary-strong: #4f86aa;
+  --color-danger: #d95c65;
+}
