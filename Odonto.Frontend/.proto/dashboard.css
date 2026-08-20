@@ -3,3 +3,44 @@
 @media(max-width:800px){.sidebar{transform:translateX(-105%);box-shadow:15px 0 35px rgba(33,56,69,.15)}.sidebar.open{transform:none}.workspace,.sidebar.collapsed+.workspace{margin-left:0}.collapse-button{display:none}.mobile-menu{width:38px;height:38px;display:grid;align-content:center;gap:4px;padding:9px;border:0;background:none}.mobile-menu span{height:2px;border-radius:2px;background:#667984}.topbar{padding:0 16px}.search-box{width:min(330px,50vw)}.page-content{padding:23px 18px}.mobile-overlay.show{position:fixed;inset:0;z-index:19;display:block;background:rgba(27,45,56,.32)}.welcome-row{align-items:flex-start;gap:18px}.profile-copy,.chevron{display:none}}
 @media(max-width:620px){.search-box{flex:1;margin:0 10px}.search-box kbd{display:none}.topbar__divider{display:none}.welcome-row{display:block}.welcome-actions{margin-top:18px}.welcome-actions button{flex:1}.metrics{grid-template-columns:1fr}.metric-card{min-height:125px}.side-column{grid-template-columns:1fr}.appointment{grid-template-columns:48px 9px 32px 1fr 23px;padding:0 11px}.professional,.appointment .status{display:none}.filter-button{display:none}.panel__header{padding:14px}.panel__footer{padding:0 14px}.page-content{padding:20px 12px}.welcome-row h1{font-size:24px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+/* Navegação lateral recolhível */
+.sidebar__brand .brand-logo--compact{display:none;width:46px;height:46px;margin-top:10px}
+.sidebar__brand .brand-logo--dark{display:none}
+.nav-icon,.main-nav svg{width:19px;height:19px}
+.main-nav svg{stroke-width:2.15}
+.nav-symbol{font-size:18px;font-weight:800;-webkit-text-stroke:.25px currentColor}
+.sidebar.collapsed .sidebar__brand .brand-logo--expanded{display:none}
+.sidebar.collapsed .sidebar__brand .brand-logo--compact{display:block}
+.sidebar.collapsed .sidebar__brand .brand-logo--dark{display:none}
+
+@media(max-width:800px){
+  .sidebar.collapsed{width:var(--sidebar)}
+  .sidebar.collapsed .sidebar__brand .brand-logo--expanded{display:block}
+  .sidebar.collapsed .sidebar__brand .brand-logo--compact{display:none}
+  .sidebar.collapsed .main-nav a span:last-child,.sidebar.collapsed .main-nav p,.sidebar.collapsed .main-nav a b,.sidebar.collapsed .sidebar__help div{display:initial}
+  .sidebar.collapsed .main-nav a{justify-content:flex-start;padding:0 12px}
+  .sidebar.collapsed .sidebar__help{justify-content:flex-start;padding:13px 10px}
+}
+
+/* Aplica a preferência antes da primeira pintura e evita o salto lateral entre páginas. */
+.sidebar.collapsed .main-nav a>span:nth-child(2),.sidebar-state-collapsed .sidebar .main-nav a>span:nth-child(2){display:none}
+.sidebar-state-collapsed .sidebar{width:76px}
+.sidebar-state-collapsed .sidebar .sidebar__brand .brand-logo--expanded{display:none}
+.sidebar-state-collapsed .sidebar .sidebar__brand .brand-logo--compact{display:block}
+.sidebar-state-collapsed .sidebar .sidebar__brand .brand-logo--dark{display:none}
+.sidebar-state-collapsed .sidebar .main-nav p,.sidebar-state-collapsed .sidebar .main-nav a b,.sidebar-state-collapsed .sidebar .sidebar__help div{display:none}
+.sidebar-state-collapsed .sidebar .main-nav a{justify-content:center;padding:0}
+.sidebar-state-collapsed .sidebar .sidebar__help{justify-content:center;padding:10px 0}
+.sidebar-state-collapsed .workspace{margin-left:76px}
+.sidebar-state-collapsed .collapse-button{transform:rotate(180deg)}
+
+@media(max-width:800px){
+  .sidebar-state-collapsed .sidebar{width:var(--sidebar)}
+  .sidebar-state-collapsed .sidebar .sidebar__brand .brand-logo--expanded{display:block}
+  .sidebar-state-collapsed .sidebar .sidebar__brand .brand-logo--compact{display:none}
+  .sidebar-state-collapsed .sidebar .main-nav a>span:nth-child(2),.sidebar-state-collapsed .sidebar .main-nav p,.sidebar-state-collapsed .sidebar .main-nav a b,.sidebar-state-collapsed .sidebar .sidebar__help div{display:initial}
+  .sidebar-state-collapsed .sidebar .main-nav a{justify-content:flex-start;padding:0 12px}
+  .sidebar-state-collapsed .sidebar .sidebar__help{justify-content:flex-start;padding:13px 10px}
+  .sidebar-state-collapsed .workspace{margin-left:0}
+}

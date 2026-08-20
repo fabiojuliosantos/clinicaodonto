@@ -71,7 +71,7 @@ document.querySelectorAll('form').forEach(form => {
     }
     if (form.id === 'login-form') {
       notify('Acesso validado. Abrindo o painel...');
-      setTimeout(() => { window.location.href = 'dashboard.html'; }, 700);
+      setTimeout(() => { window.location.href = window.withAlmeidaTheme?.('dashboard.html') || 'dashboard.html'; }, 700);
     }
     else {
       notify('Solicitação enviada! Aguarde a aprovação do administrador.');

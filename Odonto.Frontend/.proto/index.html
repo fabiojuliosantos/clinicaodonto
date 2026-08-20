@@ -5,39 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Acesso interno à gestão da Almeida Estética e Sorriso" />
     <title>Almeida — Acesso ao sistema</title>
+    <script src="theme-init.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="theme.css" />
   </head>
   <body>
     <main class="auth-shell">
-      <section class="brand-panel" aria-label="Almeida Estética e Sorriso">
+      <section class="brand-panel" aria-label="Ambiente clínico Almeida">
         <div class="brand-panel__overlay"></div>
-        <header class="brand-panel__header">
-          <img src="assets/almeida-branco.png" alt="Almeida Estética e Sorriso" class="brand-logo" />
-        </header>
         <div class="brand-message">
-          <span class="eyebrow"><span></span> Gestão interna</span>
-          <h1>Mais organização para cuidar de cada sorriso.</h1>
-          <p>Agenda, pacientes e rotina clínica reunidos em um ambiente seguro para a equipe Almeida.</p>
-          <div class="trust-row" aria-label="Benefícios do sistema">
-            <div><strong>Seguro</strong><small>Dados protegidos</small></div>
-              <div><strong>Organizado</strong><small>Rotina integrada</small></div>
-              <div><strong>Eficiente</strong><small>Equipe conectada</small></div>
-          </div>
+          <span class="eyebrow"><span></span> Sistema interno</span>
+          <h1>Gestão clínica com clareza e segurança.</h1>
+          <p>Um ambiente de trabalho integrado para toda a equipe Almeida.</p>
         </div>
-        <p class="image-note">Imagem conceitual criada para este protótipo</p>
       </section>
-
       <section class="form-panel">
-        <div class="mobile-brand"><img src="assets/almeida-transparente.png" alt="Almeida Estética e Sorriso" /></div>
+        <button class="theme-toggle auth-theme-toggle" type="button" aria-label="Ativar modo escuro" title="Alternar tema">☾</button>
         <div class="form-wrap">
           <div class="view active" id="login-view">
+            <div class="auth-form-brand">
+              <img src="assets/almeida-lilas-transparente.png" alt="Almeida Estética e Sorriso" class="auth-form-logo auth-form-logo-light" />
+              <img src="assets/almeida-branco.png" alt="" aria-hidden="true" class="auth-form-logo auth-form-logo-dark" />
+            </div>
             <div class="form-heading">
-              <span class="step-label">Bem-vindo de volta</span>
               <h2>Acesse sua conta</h2>
-              <p>Entre com suas credenciais de colaborador.</p>
+              <p>Ambiente exclusivo para a equipe.</p>
             </div>
             <form id="login-form" novalidate>
               <label class="field">
@@ -68,10 +63,13 @@
 
           <div class="view" id="register-view" aria-hidden="true">
             <button type="button" class="back-button" data-view="login">← <span>Voltar para o login</span></button>
+            <div class="auth-form-brand">
+              <img src="assets/almeida-lilas-transparente.png" alt="Almeida Estética e Sorriso" class="auth-form-logo auth-form-logo-light" />
+              <img src="assets/almeida-branco.png" alt="" aria-hidden="true" class="auth-form-logo auth-form-logo-dark" />
+            </div>
             <div class="form-heading compact">
-              <span class="step-label">Comece agora</span>
               <h2>Crie sua conta</h2>
-              <p>Cadastre seus dados para solicitar acesso interno.</p>
+              <p>Use seus dados profissionais.</p>
             </div>
             <form id="register-form" novalidate>
               <div class="field-grid">
@@ -91,5 +89,6 @@
     </main>
     <div class="toast" role="status" aria-live="polite"><span>✓</span><p></p></div>
     <script src="app.js"></script>
+    <script src="theme.js"></script>
   </body>
 </html>

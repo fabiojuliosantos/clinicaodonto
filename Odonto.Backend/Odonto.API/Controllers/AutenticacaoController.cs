@@ -22,9 +22,23 @@ public class AutenticacaoController : ControllerBase
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult>login([FromBody]LoginDTO dto)
+    public async Task<IActionResult> Login(
+        [FromBody] LoginDTO dto,
+        CancellationToken cancellationToken)
     {
-        var resultado = await _autenticacaoService.Login(dto);
-        return Ok(resultado);
+        try
+        {
+            var resultado = await _autenticacaoService.Login(dto, cancellationToken);
+            return Ok(resultado);
+        }
+        catch (UnauthorizedAccessException)
+        {
+            return Unauthorized(new ProblemDetails
+            {
+                Title = "Credenciais inválidas",
+                Detail = "E-mail ou senha inválidos.",
+                Status = StatusCodes.Status401Unauthorized
+            });
+        }
     }
 }

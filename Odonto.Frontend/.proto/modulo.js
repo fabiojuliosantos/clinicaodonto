@@ -1,3 +1,20 @@
+const navigationIconPaths = {
+  grid: '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',
+  calendar: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/>',
+  users: '<path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>',
+  tooth: '<path d="M12 5C8 1 3 3 3 8c0 4 2 5 3 10 .5 2 2 3 3 0l1-4c.5-2 3-2 4 0l1 4c1 3 2.5 2 3 0 1-5 3-6 3-10 0-5-5-7-9-3z"/>',
+  file: '<path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h6"/>',
+  wallet: '<path d="M20 7V5a2 2 0 00-2-2H5a3 3 0 000 6h15v11H5a3 3 0 01-3-3V6"/><path d="M16 13h2"/>',
+  package: '<path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><path d="M3.3 7 12 12l8.7-5M12 22V12"/>',
+  chart: '<path d="M3 3v18h18M7 16l4-5 3 3 5-7"/>',
+  team: '<path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM19 8v6M22 11h-6"/>',
+  settings: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.34 1.88l.06.06-2.83 2.83-.06-.06a1.7 1.7 0 00-1.88-.34 1.7 1.7 0 00-1 1.55V21h-4v-.09A1.7 1.7 0 009 19.37a1.7 1.7 0 00-1.88.34l-.06.06-2.83-2.83.06-.06A1.7 1.7 0 004.63 15a1.7 1.7 0 00-1.55-1H3v-4h.09A1.7 1.7 0 004.63 9a1.7 1.7 0 00-.34-1.88l-.06-.06 2.83-2.83.06.06A1.7 1.7 0 009 4.63h.01A1.7 1.7 0 0010 3.08V3h4v.09A1.7 1.7 0 0015 4.63a1.7 1.7 0 001.88-.34l.06-.06 2.83 2.83-.06.06A1.7 1.7 0 0019.37 9v.01A1.7 1.7 0 0020.92 10H21v4h-.09A1.7 1.7 0 0019.4 15z"/>'
+};
+document.querySelectorAll('.main-nav [data-icon]').forEach(element => {
+  const path = navigationIconPaths[element.dataset.icon];
+  if (path) element.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.15" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${path}</svg>`;
+});
+
 const params = new URLSearchParams(window.location.search);
 const requestedPage = params.get('page') || 'agenda';
 const page = requestedPage === 'novo-paciente' ? 'pacientes' : requestedPage === 'novo-agendamento' ? 'agenda' : requestedPage;
@@ -18,7 +35,7 @@ const header = (title, description, actions = '', parent = '') => `
     <div class="head-actions">${actions}</div>
   </header>`;
 
-const labelFor = value => ({agenda:'Agenda',pacientes:'Pacientes',atendimentos:'Atendimentos',prontuarios:'Prontuários',financeiro:'Financeiro',relatorios:'Relatórios',equipe:'Equipe',configuracoes:'Configurações'})[value] || value;
+const labelFor = value => ({agenda:'Agenda',pacientes:'Pacientes',atendimentos:'Atendimentos',prontuarios:'Prontuários',financeiro:'Financeiro',estoque:'Estoque',relatorios:'Relatórios',equipe:'Equipe',configuracoes:'Configurações'})[value] || value;
 const card = body => `<section class="content-card">${body}</section>`;
 const person = (p, link = true) => `<div class="person-cell"><div class="patient-avatar ${p[6]}">${p[0]}</div><div>${link ? `<a class="table-link" href="modulo.html?page=paciente&id=${p[7]}"><strong>${p[1]}</strong></a>` : `<strong>${p[1]}</strong>`}<small>${p[2]}</small></div></div>`;
 
@@ -79,6 +96,29 @@ function financePage() {
   content.innerHTML = header('Financeiro','Movimentações, recebimentos e saúde financeira da clínica.',`<button data-toast="Lançamento financeiro criado.">＋ Novo lançamento</button>`) + `<section class="finance-metrics"><article class="content-card finance-card"><span>Receita no mês</span><strong>R$ 28.460</strong><small>↑ 8,4% sobre julho</small></article><article class="content-card finance-card"><span>A receber</span><strong>R$ 7.280</strong><small>18 parcelas abertas</small></article><article class="content-card finance-card"><span>Despesas</span><strong>R$ 9.840</strong><small>34,5% da receita</small></article><article class="content-card finance-card"><span>Em atraso</span><strong>R$ 1.260</strong><small style="color:#b77878">5 cobranças pendentes</small></article></section><div class="toolbar"><div class="segmented"><button class="active">Movimentações</button><button>Contas a receber</button><button>Contas a pagar</button></div><select class="select-soft"><option>Agosto de 2026</option><option>Julho de 2026</option></select></div>` + card(`<table class="data-table"><thead><tr><th>Descrição</th><th>Paciente / categoria</th><th>Vencimento</th><th>Valor</th><th>Status</th></tr></thead><tbody><tr><td><strong>Clareamento · parcela 2/3</strong></td><td>Ana Carolina</td><td>Hoje</td><td>R$ 480,00</td><td><span class="badge green">Recebido</span></td></tr><tr><td><strong>Restauração</strong></td><td>Rafael Martins</td><td>20 ago.</td><td>R$ 420,00</td><td><span class="badge blue">A receber</span></td></tr><tr><td><strong>Material odontológico</strong></td><td>Fornecedor · insumos</td><td>20 ago.</td><td>− R$ 1.240,00</td><td><span class="badge gray">Agendado</span></td></tr><tr><td><strong>Tratamento ortodôntico</strong></td><td>Mariana Souza</td><td>14 ago.</td><td>R$ 360,00</td><td><span class="badge amber">Em atraso</span></td></tr></tbody></table>`);
 }
 
+function inventoryPage() {
+  const items = [
+    ['RES-001','Resina composta A2','Restauradores','18','10','seringas','RC2407','30 jul. 2027','Dental Recife','Adequado','green'],
+    ['ANES-004','Lidocaína 2% com epinefrina','Anestésicos','8','12','tubetes','LD2604','18 out. 2026','OdontoMed','Estoque baixo','amber'],
+    ['LUV-010','Luva de procedimento M','Descartáveis','6','15','caixas','LV1198','—','SupriClínica','Estoque baixo','amber'],
+    ['ADES-002','Adesivo universal','Restauradores','9','6','frascos','AD8821','12 set. 2026','Dental Recife','Validade próxima','blue'],
+    ['AGU-006','Agulha gengival curta','Descartáveis','24','10','caixas','AG3402','22 mar. 2028','OdontoMed','Adequado','green'],
+    ['CIM-003','Cimento resinoso dual','Cimentação','4','4','kits','CR7710','08 nov. 2026','Dental Recife','No limite','gray']
+  ];
+  content.innerHTML = header('Estoque','Controle de insumos, lotes, validade e movimentações do consultório.',`<button class="action-primary" data-entity="inventory">＋ Novo item</button><button data-entity="stock-movement">↕ Registrar movimentação</button>`) + `
+    <section class="finance-metrics inventory-metrics">
+      <article class="content-card finance-card"><span>Itens cadastrados</span><strong>68</strong><small>12 categorias ativas</small></article>
+      <article class="content-card finance-card"><span>Abaixo do mínimo</span><strong>2</strong><small class="inventory-warning">Reposição necessária</small></article>
+      <article class="content-card finance-card"><span>Validade próxima</span><strong>1</strong><small>Próximos 60 dias</small></article>
+      <article class="content-card finance-card"><span>Movimentações no mês</span><strong>47</strong><small>31 saídas · 16 entradas</small></article>
+    </section>
+    <div class="toolbar"><input class="filter-input" id="table-search" placeholder="Buscar item, categoria, lote ou fornecedor"><div class="toolbar-group"><select class="select-soft" id="status-filter"><option value="">Todos os status</option><option>Estoque baixo</option><option>Validade próxima</option><option>Adequado</option><option>No limite</option></select><select class="select-soft"><option>Todas as categorias</option><option>Anestésicos</option><option>Descartáveis</option><option>Restauradores</option></select></div></div>
+    <div class="inventory-layout">
+      ${card(`<div class="table-scroll"><table class="data-table inventory-table"><thead><tr><th>Item</th><th>Saldo / mínimo</th><th>Lote</th><th>Validade</th><th>Fornecedor</th><th>Situação</th><th></th></tr></thead><tbody id="patients-body">${items.map(item=>`<tr data-name="${item.join(' ').toLowerCase()}" data-status="${item[9]}"><td><div class="inventory-item"><span>${item[0]}</span><strong>${item[1]}</strong><small>${item[2]}</small></div></td><td><strong>${item[3]} ${item[5]}</strong><small class="stock-minimum">Mín. ${item[4]}</small></td><td>${item[6]}</td><td>${item[7]}</td><td>${item[8]}</td><td><span class="badge ${item[10]}">${item[9]}</span></td><td><button class="table-menu" data-toast="Detalhes de ${item[1]} abertos." aria-label="Abrir detalhes de ${item[1]}">•••</button></td></tr>`).join('')}</tbody></table></div>`)}
+      <aside class="content-card inventory-activity"><div class="inventory-panel-head"><div><h2>Movimentações recentes</h2><p>Últimos registros do estoque</p></div><a href="#historico">Ver todas</a></div><ol><li><span class="movement-icon out">−</span><div><strong>Resina composta A2</strong><small>Saída de 1 seringa · Atendimento</small><time>Hoje, 10:42</time></div></li><li><span class="movement-icon in">＋</span><div><strong>Luva de procedimento M</strong><small>Entrada de 4 caixas · Lote LV1198</small><time>Ontem, 16:18</time></div></li><li><span class="movement-icon out">−</span><div><strong>Lidocaína 2%</strong><small>Saída de 2 tubetes · Atendimento</small><time>Ontem, 11:05</time></div></li></ol></aside>
+    </div>`;
+}
+
 function reportsPage() {
   content.innerHTML = header('Relatórios','Indicadores para acompanhar a operação e apoiar decisões.',`<button data-toast="Relatório exportado em PDF.">⇩ Exportar PDF</button>`) + `<div class="toolbar"><div class="segmented"><button>7 dias</button><button class="active">30 dias</button><button>Este ano</button></div><select class="select-soft"><option>Todos os profissionais</option><option>Dra. Almeida</option><option>Dr. Marcelo</option></select></div><div class="charts-grid"><section class="content-card chart-card"><h2>Receita mensal</h2><p>Evolução dos últimos seis meses</p><div class="bar-chart">${[['Mar',45],['Abr',58],['Mai',51],['Jun',72],['Jul',67],['Ago',88]].map(v=>`<div class="bar" style="height:${v[1]}%" data-label="${v[0]}"></div>`).join('')}</div></section><section class="content-card chart-card"><h2>Ocupação da agenda</h2><p>Distribuição das consultas no período</p><div class="donut-wrap"><div class="donut"><div><strong>82%</strong><small>ocupação</small></div></div></div></section></div><section class="finance-metrics" style="margin-top:16px"><article class="content-card finance-card"><span>Consultas realizadas</span><strong>126</strong><small>↑ 12% no período</small></article><article class="content-card finance-card"><span>Taxa de faltas</span><strong>6,2%</strong><small>↓ 1,4 ponto</small></article><article class="content-card finance-card"><span>Ticket médio</span><strong>R$ 386</strong><small>↑ R$ 24</small></article><article class="content-card finance-card"><span>Novos pacientes</span><strong>18</strong><small>6 por indicação</small></article></section>`;
 }
@@ -92,8 +132,18 @@ function settingsPage() {
   content.innerHTML = header('Configurações','Preferências gerais e segurança do sistema.') + `<div class="settings-layout"><nav class="content-card settings-nav"><button class="active" data-settings="clinic">Dados da clínica</button><button data-settings="hours">Horários</button><button data-settings="security">Segurança</button><button data-settings="notifications">Notificações</button><button data-settings="audit">Auditoria</button></nav><section class="content-card settings-panel" id="settings-panel"><h2>Dados da clínica</h2><p style="color:var(--muted);font-size:9px;margin-bottom:20px">Informações utilizadas em documentos e comunicações.</p><form class="soft-form prototype-form" data-success="Configurações salvas."><label class="full">Nome da clínica<input value="Almeida Estética e Sorriso"></label><label>CNPJ<input placeholder="00.000.000/0000-00"></label><label>Telefone<input value="(81) 99999-0000"></label><label class="full">Endereço<input value="Recife, Pernambuco"></label><label class="full">E-mail institucional<input type="email" value="contato@almeida.com.br"></label><div class="form-actions full"><button class="action-primary">Salvar alterações</button></div></form></section></div>`;
 }
 
-const renderers = {agenda:agendaPage,pacientes:patientsPage,'novo-paciente':patientFormPage,'novo-agendamento':appointmentFormPage,paciente:patientPage,atendimentos:appointmentsPage,atendimento:()=>clinicalPage('atendimento'),prontuarios:recordsPage,prontuario:()=>clinicalPage('prontuario'),odontograma:odontogramPage,financeiro:financePage,relatorios:reportsPage,equipe:teamPage,configuracoes:settingsPage};
+const renderers = {agenda:agendaPage,pacientes:patientsPage,'novo-paciente':patientFormPage,'novo-agendamento':appointmentFormPage,paciente:patientPage,atendimentos:appointmentsPage,atendimento:()=>clinicalPage('atendimento'),prontuarios:recordsPage,prontuario:()=>clinicalPage('prontuario'),odontograma:odontogramPage,financeiro:financePage,estoque:inventoryPage,relatorios:reportsPage,equipe:teamPage,configuracoes:settingsPage};
 (renderers[page] || agendaPage)();
+
+// Cadastros pertencentes a páginas existentes acontecem no próprio contexto.
+if (page === 'financeiro') {
+  const button = [...document.querySelectorAll('.head-actions button')].find(item => item.textContent.includes('Novo lançamento'));
+  if (button) { button.dataset.entity = 'finance'; delete button.dataset.toast; button.classList.add('action-primary'); }
+}
+if (page === 'equipe') {
+  const button = [...document.querySelectorAll('.head-actions button')].find(item => item.textContent.includes('Convidar colaborador'));
+  if (button) { button.dataset.entity = 'team'; delete button.dataset.toast; }
+}
 
 const navKey = page.startsWith('novo-agendamento') ? 'agenda' : page.startsWith('novo-paciente') || page === 'paciente' ? 'pacientes' : page === 'atendimento' ? 'atendimentos' : ['prontuario','odontograma'].includes(page) ? 'prontuarios' : page;
 document.querySelector(`[data-page="${navKey}"]`)?.classList.add('active');
@@ -102,12 +152,12 @@ document.title = `${content.querySelector('h1')?.textContent || 'Sistema'} — A
 const toast = document.querySelector('#module-toast');
 function notify(message) { toast.querySelector('p').textContent = message; toast.classList.add('show'); clearTimeout(notify.timer); notify.timer=setTimeout(()=>toast.classList.remove('show'),3000); }
 document.addEventListener('click', event => { const trigger=event.target.closest('[data-toast]'); if(trigger){event.preventDefault();notify(trigger.dataset.toast);} });
-document.querySelectorAll('.prototype-form').forEach(form=>form.addEventListener('submit',event=>{event.preventDefault();if(!form.checkValidity()){form.reportValidity();return;}notify(form.dataset.success||'Alterações salvas.');if(form.dataset.redirect)setTimeout(()=>location.href=form.dataset.redirect,800);}));
+document.querySelectorAll('.prototype-form').forEach(form=>form.addEventListener('submit',event=>{event.preventDefault();if(!form.checkValidity()){form.reportValidity();return;}notify(form.dataset.success||'Alterações salvas.');if(form.dataset.redirect)setTimeout(()=>location.href=window.withAlmeidaTheme?.(form.dataset.redirect)||form.dataset.redirect,800);}));
 
 const search=document.querySelector('#table-search');
 search?.addEventListener('input',()=>document.querySelectorAll('#patients-body tr').forEach(row=>row.hidden=!row.dataset.name.includes(search.value.toLowerCase())));
 if(search && params.get('q')) { search.value=params.get('q'); search.dispatchEvent(new Event('input')); }
-document.querySelector('#status-filter')?.addEventListener('change',event=>document.querySelectorAll('#patients-body tr').forEach(row=>row.hidden=event.target.value!=='Todos os pacientes'&&row.dataset.status!==event.target.value));
+document.querySelector('#status-filter')?.addEventListener('change',event=>document.querySelectorAll('#patients-body tr').forEach(row=>row.hidden=Boolean(event.target.value)&&row.dataset.status!==event.target.value));
 document.querySelectorAll('.segmented button').forEach(button=>button.addEventListener('click',()=>{button.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('active'));button.classList.add('active');}));
 document.querySelectorAll('.tooth-item').forEach(button=>button.addEventListener('click',()=>{document.querySelectorAll('.tooth-item').forEach(b=>b.classList.remove('selected'));button.classList.add('selected');document.querySelector('#tooth-title').textContent=`Dente ${button.dataset.tooth}`;}));
 document.querySelectorAll('[data-settings]').forEach(button=>button.addEventListener('click',()=>{document.querySelectorAll('[data-settings]').forEach(b=>b.classList.remove('active'));button.classList.add('active');const titles={clinic:'Dados da clínica',hours:'Horários de funcionamento',security:'Segurança e acesso',notifications:'Notificações',audit:'Auditoria'};document.querySelector('#settings-panel').innerHTML=`<div class="empty-state"><span>✓</span><h2>${titles[button.dataset.settings]}</h2><p>Esta seção demonstra as preferências de ${titles[button.dataset.settings].toLowerCase()}. As configurações serão persistidas pela API na implementação.</p><button class="select-soft" data-toast="Preferência demonstrativa salva.">Salvar preferência</button></div>`;}));
@@ -116,7 +166,12 @@ const profileButton=document.querySelector('#profile-button'),profileMenu=docume
 profileButton.addEventListener('click',()=>{const open=profileMenu.classList.toggle('show');profileButton.setAttribute('aria-expanded',open);});
 document.addEventListener('click',event=>{if(!event.target.closest('.topbar__actions'))profileMenu.classList.remove('show');});
 const sidebar=document.querySelector('#sidebar'),overlay=document.querySelector('#mobile-overlay');
+const collapseButton=document.querySelector('#collapse-sidebar'),sidebarPreferenceKey='almeida-sidebar-collapsed';
+sidebar.querySelectorAll('.main-nav a').forEach(link=>{link.title=link.querySelector(':scope > span:nth-child(2)')?.textContent.trim()||'';});
+function setSidebarCollapsed(collapsed){document.documentElement.classList.toggle('sidebar-state-collapsed',collapsed);sidebar.classList.toggle('collapsed',collapsed);collapseButton.setAttribute('aria-expanded',String(!collapsed));const label=collapsed?'Expandir menu':'Recolher menu';collapseButton.setAttribute('aria-label',label);collapseButton.title=label;window.syncAlmeidaSidebarLinks?.(collapsed);}
+setSidebarCollapsed(document.documentElement.classList.contains('sidebar-state-collapsed'));
+collapseButton.addEventListener('click',()=>{const collapsed=!sidebar.classList.contains('collapsed');setSidebarCollapsed(collapsed);try{localStorage.setItem(sidebarPreferenceKey,String(collapsed));}catch(_){/* estado segue pelos links */}});
 document.querySelector('#mobile-menu').addEventListener('click',()=>{sidebar.classList.toggle('open');overlay.classList.toggle('show');});
 overlay.addEventListener('click',()=>{sidebar.classList.remove('open');overlay.classList.remove('show');});
 document.addEventListener('keydown',event=>{if((event.metaKey||event.ctrlKey)&&event.key.toLowerCase()==='k'){event.preventDefault();document.querySelector('#global-search').focus();}});
-document.querySelector('#global-search').addEventListener('keydown',event=>{if(event.key==='Enter'&&event.target.value.trim())location.href=`modulo.html?page=pacientes&q=${encodeURIComponent(event.target.value.trim())}`;});
+document.querySelector('#global-search').addEventListener('keydown',event=>{if(event.key==='Enter'&&event.target.value.trim()){const target=`modulo.html?page=pacientes&q=${encodeURIComponent(event.target.value.trim())}`;location.href=window.withAlmeidaTheme?.(target)||target;}});

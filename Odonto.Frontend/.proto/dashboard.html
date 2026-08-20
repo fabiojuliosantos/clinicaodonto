@@ -5,18 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Painel interno Almeida Estética e Sorriso" />
     <title>Visão geral — Almeida</title>
+    <script src="theme-init.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="dashboard.css" />
     <link rel="stylesheet" href="soft-calm.css" />
     <link rel="stylesheet" href="entity-modal.css" />
+    <link rel="stylesheet" href="theme.css" />
   </head>
   <body>
     <div class="app-shell">
       <aside class="sidebar" id="sidebar">
         <a class="sidebar__brand" href="dashboard.html" aria-label="Página inicial Almeida">
-          <img src="assets/almeida-transparente.png" alt="Almeida Estética e Sorriso" />
+          <img class="brand-logo brand-logo--expanded brand-logo--light" src="assets/almeida-lilas-transparente.png" alt="Almeida Estética e Sorriso" />
+          <img class="brand-logo brand-logo--expanded brand-logo--dark" src="assets/almeida-branco.png" alt="Almeida Estética e Sorriso" />
+          <img class="brand-logo brand-logo--compact brand-logo--light" src="logoColapsavel.png" alt="" aria-hidden="true" />
+          <img class="brand-logo brand-logo--compact brand-logo--dark" src="logoColapsavel-branco.png" alt="" aria-hidden="true" />
         </a>
 
         <nav class="main-nav" aria-label="Navegação principal">
@@ -28,6 +33,7 @@
           <a href="modulo.html?page=atendimentos"><span class="nav-icon" data-icon="tooth"></span><span>Atendimentos</span></a>
           <a href="modulo.html?page=prontuarios"><span class="nav-icon" data-icon="file"></span><span>Prontuários</span></a>
           <a href="modulo.html?page=financeiro"><span class="nav-icon" data-icon="wallet"></span><span>Financeiro</span></a>
+          <a href="modulo.html?page=estoque"><span class="nav-icon" data-icon="package"></span><span>Estoque</span><b>3</b></a>
           <a href="modulo.html?page=relatorios"><span class="nav-icon" data-icon="chart"></span><span>Relatórios</span></a>
           <p>Administração</p>
           <a href="modulo.html?page=equipe"><span class="nav-icon" data-icon="team"></span><span>Equipe</span></a>
@@ -38,7 +44,7 @@
           <span>?</span>
           <div><strong>Precisa de ajuda?</strong><small>Consulte o guia interno</small></div>
         </div>
-        <button class="collapse-button" id="collapse-sidebar" aria-label="Recolher menu">‹</button>
+        <button class="collapse-button" id="collapse-sidebar" type="button" aria-controls="sidebar" aria-label="Recolher menu" aria-expanded="true" title="Recolher menu">‹</button>
       </aside>
 
       <main class="workspace">
@@ -50,6 +56,7 @@
             <kbd>⌘ K</kbd>
           </div>
           <div class="topbar__actions">
+            <button class="theme-toggle" type="button" aria-label="Ativar modo escuro" title="Alternar tema">☾</button>
             <button class="icon-button" aria-label="Notificações" id="notification-button"><span data-icon="bell"></span><i></i></button>
             <span class="topbar__divider"></span>
             <button class="profile-button" id="profile-button" aria-expanded="false">
@@ -184,5 +191,6 @@
     <div class="mobile-overlay" id="mobile-overlay"></div>
     <script src="dashboard.js"></script>
     <script src="entity-modal.js"></script>
+    <script src="theme.js"></script>
   </body>
 </html>

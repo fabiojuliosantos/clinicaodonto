@@ -46,7 +46,7 @@ Funcionalidades adicionais serão discutidas durante a evolução do sistema.
 
 As primeiras entregas são:
 
-1. Cadastro e gestão inicial de funcionários.
+1. Gestão inicial de funcionários pelo módulo Equipe.
 2. Login.
 3. Dashboard inicial.
 4. Base de autorização por perfil, preparada para a futura matriz de permissões.
@@ -56,13 +56,10 @@ protótipo descartável.
 
 ## Acesso e criação de usuários
 
-Não existe auto cadastro público. Um superusuário de TI será provisionado na
-implantação inicial e criará os demais usuários. No futuro, outros usuários
-poderão receber essa permissão.
-
-O formulário de criação existente no protótipo deve ser adaptado para o módulo
-Equipe. A aba e o fluxo de criação só podem ser exibidos para usuários com a
-permissão correspondente, e a API também deve validar essa autorização.
+Somente o login é público. Não existe autocadastro de funcionários na interface.
+A criação e a gestão de contas pertencem ao módulo Equipe e dependem de
+autorização no frontend e no backend. As permissões efetivas ainda devem ser
+definidas.
 
 ## Princípios de experiência
 
@@ -73,4 +70,3 @@ Por ser uma ferramenta diária de trabalho, a experiência deve priorizar:
 - Estados, validações e consequências de ações facilmente compreensíveis.
 - Proteção contra exposição indevida de dados pessoais e clínicos.
 - Confirmação proporcional ao risco de ações importantes.
-

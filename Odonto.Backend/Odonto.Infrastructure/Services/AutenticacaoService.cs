@@ -55,24 +55,28 @@ public sealed class AutenticacaoService(
         ArgumentNullException.ThrowIfNull(dto);
         cancellationToken.ThrowIfCancellationRequested();
 
-        var usuario = userManager.FindByEmailAsync(dto.Email);
-        
-        ArgumentNullException.ThrowIfNull(usuario);
+        var usuario = await userManager.FindByEmailAsync(dto.Email);
+
+        if (usuario is null)
+        {
+            throw new UnauthorizedAccessException("Email ou senha inválidos.");
+        }
+
         cancellationToken.ThrowIfCancellationRequested();
 
-        var resultado = await userManager.CheckPasswordAsync(usuario.Result, dto.Senha);
+        var resultado = await userManager.CheckPasswordAsync(usuario, dto.Senha);
         
         if (!resultado)
         {
             throw new UnauthorizedAccessException("Email ou senha inválidos.");
         }
 
-        var userRoles = await userManager.GetRolesAsync(usuario.Result);
+        var userRoles = await userManager.GetRolesAsync(usuario);
         
         var claims = new List<Claim>
         {
-            new (ClaimTypes.Name, usuario.Result.UserName),
-            new (ClaimTypes.Email, usuario.Result.Email),
+            new (ClaimTypes.Name, usuario.UserName ?? string.Empty),
+            new (ClaimTypes.Email, usuario.Email ?? string.Empty),
             new (JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             new ("Tipo", "Admin") 
         };

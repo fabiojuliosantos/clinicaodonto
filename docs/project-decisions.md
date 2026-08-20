@@ -23,9 +23,9 @@ regras reais do produto.
 
 ### Provisionamento de usuários
 
-Não haverá cadastro público. Um superusuário de TI será provisionado inicialmente
-e criará os demais funcionários pelo módulo Equipe. O acesso ao cadastro depende
-de permissão no frontend e no backend.
+Somente o login é público. A criação e a gestão de contas de funcionários
+pertencem ao módulo Equipe e dependem de permissão no frontend e no backend. A
+atribuição inicial de permissões ainda precisa ser definida.
 
 ### Autonomia do agente
 
@@ -36,10 +36,9 @@ impactos no backend devem ser discutidos antes da execução.
 ## Pendências conhecidas
 
 - Definir a matriz de permissões dos cinco perfis internos.
-- Definir como o superusuário inicial será provisionado.
-- Definir o fluxo de ativação e senha inicial de novos funcionários.
+- Definir o provisionamento administrativo inicial.
+- Definir o fluxo de ativação de novos funcionários criados pelo módulo Equipe.
 - Definir recuperação e redefinição de senha.
 - Definir o contrato de autenticação e a estratégia de sessão no navegador.
 - Detalhar os requisitos e a ordem de implementação de cada módulo da V1.
 - Definir ambientes, hospedagem e processo de implantação.
-

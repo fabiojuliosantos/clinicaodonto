@@ -5,6 +5,7 @@ const iconPaths = {
   tooth: '<path d="M12 5C8 1 3 3 3 8c0 4 2 5 3 10 .5 2 2 3 3 0l1-4c.5-2 3-2 4 0l1 4c1 3 2.5 2 3 0 1-5 3-6 3-10 0-5-5-7-9-3z"/>',
   file: '<path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h6"/>',
   wallet: '<path d="M20 7V5a2 2 0 00-2-2H5a3 3 0 000 6h15v11H5a3 3 0 01-3-3V6"/><path d="M16 13h2"/>',
+  package: '<path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><path d="M3.3 7 12 12l8.7-5M12 22V12"/>',
   chart: '<path d="M3 3v18h18M7 16l4-5 3 3 5-7"/>',
   team: '<path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM19 8v6M22 11h-6"/>',
   settings: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.34 1.88l.06.06-2.83 2.83-.06-.06a1.7 1.7 0 00-1.88-.34 1.7 1.7 0 00-1 1.55V21h-4v-.09A1.7 1.7 0 009 19.37a1.7 1.7 0 00-1.88.34l-.06.06-2.83-2.83.06-.06A1.7 1.7 0 004.63 15a1.7 1.7 0 00-1.55-1H3v-4h.09A1.7 1.7 0 004.63 9a1.7 1.7 0 00-.34-1.88l-.06-.06 2.83-2.83.06.06A1.7 1.7 0 009 4.63h.01A1.7 1.7 0 0010 3.08V3h4v.09A1.7 1.7 0 0015 4.63a1.7 1.7 0 001.88-.34l.06-.06 2.83 2.83-.06.06A1.7 1.7 0 0019.37 9v.01A1.7 1.7 0 0020.92 10H21v4h-.09A1.7 1.7 0 0019.4 15z"/>',
@@ -40,7 +41,26 @@ document.addEventListener('click', event => {
 });
 
 const sidebar = document.querySelector('#sidebar');
-document.querySelector('#collapse-sidebar').addEventListener('click', () => sidebar.classList.toggle('collapsed'));
+const collapseButton = document.querySelector('#collapse-sidebar');
+const sidebarPreferenceKey = 'almeida-sidebar-collapsed';
+sidebar.querySelectorAll('.main-nav a').forEach(link => {
+  link.title = link.querySelector(':scope > span:nth-child(2)')?.textContent.trim() || '';
+});
+function setSidebarCollapsed(collapsed) {
+  document.documentElement.classList.toggle('sidebar-state-collapsed', collapsed);
+  sidebar.classList.toggle('collapsed', collapsed);
+  collapseButton.setAttribute('aria-expanded', String(!collapsed));
+  const label = collapsed ? 'Expandir menu' : 'Recolher menu';
+  collapseButton.setAttribute('aria-label', label);
+  collapseButton.title = label;
+  window.syncAlmeidaSidebarLinks?.(collapsed);
+}
+setSidebarCollapsed(document.documentElement.classList.contains('sidebar-state-collapsed'));
+collapseButton.addEventListener('click', () => {
+  const collapsed = !sidebar.classList.contains('collapsed');
+  setSidebarCollapsed(collapsed);
+  try { localStorage.setItem(sidebarPreferenceKey, String(collapsed)); } catch (_) { /* estado segue pelos links */ }
+});
 const overlay = document.querySelector('#mobile-overlay');
 function toggleMobileMenu(force) {
   sidebar.classList.toggle('open', force);
