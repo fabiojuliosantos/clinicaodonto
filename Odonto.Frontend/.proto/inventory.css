@@ -1,0 +1,39 @@
+.inventory-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 310px;
+  gap: 16px;
+  align-items: start;
+}
+.inventory-layout > .content-card { min-width: 0; }
+.table-scroll { overflow: auto; }
+.inventory-table { min-width: 940px; }
+.inventory-item { display: flex; flex-direction: column; gap: 3px; }
+.inventory-item span { color: #8e9ba1; font-size: 11px; font-weight: 700; letter-spacing: .04em; }
+.inventory-item strong { color: var(--ink); }
+.inventory-item small, .stock-minimum { display: block; color: var(--muted); font-size: 12px; }
+.inventory-warning { color: #b77878 !important; }
+.inventory-activity { padding: 20px; }
+.inventory-panel-head { display: flex; justify-content: space-between; gap: 12px; padding-bottom: 15px; border-bottom: 1px solid var(--line); }
+.inventory-panel-head h2 { margin: 0 0 4px; font-size: 16px; }
+.inventory-panel-head p { margin: 0; color: var(--muted); font-size: 12px; }
+.inventory-panel-head a { color: #7168d8; font-size: 12px; font-weight: 700; text-decoration: none; }
+.inventory-activity ol { margin: 0; padding: 0; list-style: none; }
+.inventory-activity li { display: grid; grid-template-columns: 34px 1fr; gap: 11px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+.inventory-activity li:last-child { border-bottom: 0; }
+.inventory-activity li div { display: flex; flex-direction: column; gap: 4px; }
+.inventory-activity li strong { font-size: 13px; }
+.inventory-activity li small, .inventory-activity time { color: var(--muted); font-size: 12px; line-height: 1.4; }
+.inventory-activity time { font-size: 11px; }
+.movement-icon { width: 32px; height: 32px; display: grid; place-items: center; border-radius: 9px; font-size: 17px; font-weight: 700; }
+.movement-icon.in { background: #e7f3ed; color: #5c947c; }
+.movement-icon.out { background: #f9eaea; color: #b76c73; }
+@media (max-width: 1180px) {
+  .inventory-layout { grid-template-columns: 1fr; }
+  .inventory-activity { order: -1; }
+  .inventory-activity ol { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .inventory-activity li { border-bottom: 0; }
+}
+@media (max-width: 720px) {
+  .inventory-activity ol { grid-template-columns: 1fr; }
+  .inventory-activity li { border-bottom: 1px solid var(--line); }
+}

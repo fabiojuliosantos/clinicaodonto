@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Acesso interno à gestão da Almeida Estética e Sorriso" />
+    <title>Almeida — Acesso ao sistema</title>
+    <script src="theme-init.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="theme.css" />
+  </head>
+  <body>
+    <main class="auth-shell">
+      <section class="brand-panel" aria-label="Ambiente clínico Almeida">
+        <div class="brand-panel__overlay"></div>
+        <div class="brand-message">
+          <span class="eyebrow"><span></span> Sistema interno</span>
+          <h1>Gestão clínica com clareza e segurança.</h1>
+          <p>Um ambiente de trabalho integrado para toda a equipe Almeida.</p>
+        </div>
+      </section>
+      <section class="form-panel">
+        <button class="theme-toggle auth-theme-toggle" type="button" aria-label="Ativar modo escuro" title="Alternar tema">☾</button>
+        <div class="form-wrap">
+          <div class="view active" id="login-view">
+            <div class="auth-form-brand">
+              <img src="assets/almeida-lilas-transparente.png" alt="Almeida Estética e Sorriso" class="auth-form-logo auth-form-logo-light" />
+              <img src="assets/almeida-branco.png" alt="" aria-hidden="true" class="auth-form-logo auth-form-logo-dark" />
+            </div>
+            <div class="form-heading">
+              <h2>Acesse sua conta</h2>
+              <p>Ambiente exclusivo para a equipe.</p>
+            </div>
+            <form id="login-form" novalidate>
+              <label class="field">
+                <span>E-mail</span>
+                <span class="input-wrap">
+                  <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 6h16v12H4zM4 7l8 6 8-6" /></svg>
+                  <input type="email" name="email" autocomplete="email" placeholder="voce@exemplo.com" required />
+                </span>
+                <small class="error">Informe um e-mail válido.</small>
+              </label>
+              <label class="field">
+                <span>Senha</span>
+                <span class="input-wrap">
+                  <svg aria-hidden="true" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>
+                  <input type="password" name="password" autocomplete="current-password" placeholder="Digite sua senha" minlength="6" required />
+                  <button class="password-toggle" type="button" aria-label="Mostrar senha"></button>
+                </span>
+                <small class="error">A senha deve ter ao menos 6 caracteres.</small>
+              </label>
+              <div class="form-options">
+                <label class="check"><input type="checkbox" name="remember" /><span></span>Lembrar de mim</label>
+                <button type="button" class="text-button" id="forgot-button">Esqueci minha senha</button>
+              </div>
+              <button class="primary-button" type="submit"><span>Entrar no sistema</span><b aria-hidden="true">→</b></button>
+            </form>
+            <p class="switch-copy">Ainda não possui acesso? <button type="button" data-view="register">Criar uma conta</button></p>
+          </div>
+
+          <div class="view" id="register-view" aria-hidden="true">
+            <button type="button" class="back-button" data-view="login">← <span>Voltar para o login</span></button>
+            <div class="auth-form-brand">
+              <img src="assets/almeida-lilas-transparente.png" alt="Almeida Estética e Sorriso" class="auth-form-logo auth-form-logo-light" />
+              <img src="assets/almeida-branco.png" alt="" aria-hidden="true" class="auth-form-logo auth-form-logo-dark" />
+            </div>
+            <div class="form-heading compact">
+              <h2>Crie sua conta</h2>
+              <p>Use seus dados profissionais.</p>
+            </div>
+            <form id="register-form" novalidate>
+              <div class="field-grid">
+                <label class="field"><span>Nome</span><span class="input-wrap"><input type="text" name="firstName" autocomplete="given-name" placeholder="Seu nome" minlength="2" required /></span><small class="error">Informe seu nome.</small></label>
+                <label class="field"><span>Sobrenome</span><span class="input-wrap"><input type="text" name="lastName" autocomplete="family-name" placeholder="Seu sobrenome" minlength="2" required /></span><small class="error">Informe seu sobrenome.</small></label>
+              </div>
+              <label class="field"><span>E-mail</span><span class="input-wrap"><input type="email" name="email" autocomplete="email" placeholder="voce@exemplo.com" required /></span><small class="error">Informe um e-mail válido.</small></label>
+              <label class="field"><span>Confirme seu e-mail</span><span class="input-wrap"><input type="email" name="emailConfirmation" autocomplete="off" placeholder="Digite novamente seu e-mail" required /></span><small class="error">Os e-mails precisam ser iguais.</small></label>
+              <label class="field"><span>Crie uma senha</span><span class="input-wrap"><input type="password" name="password" autocomplete="new-password" placeholder="Mínimo de 8 caracteres" minlength="8" required /><button class="password-toggle" type="button" aria-label="Mostrar senha"></button></span><div class="strength"><i></i><i></i><i></i><i></i></div><small class="error">Use ao menos 8 caracteres.</small></label>
+              <label class="check terms"><input type="checkbox" name="terms" required /><span></span><em>Confirmo que faço parte da equipe e aceito a <a href="modulo.html?page=configuracoes&secao=seguranca">Política de Acesso</a>.</em></label>
+              <button class="primary-button" type="submit"><span>Solicitar acesso</span><b aria-hidden="true">→</b></button>
+            </form>
+          </div>
+        </div>
+        <footer>© 2026 Almeida Estética e Sorriso · Ambiente seguro</footer>
+      </section>
+    </main>
+    <div class="toast" role="status" aria-live="polite"><span>✓</span><p></p></div>
+    <script src="app.js"></script>
+    <script src="theme.js"></script>
+  </body>
+</html>

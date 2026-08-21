@@ -1,0 +1,75 @@
+.auth-shell { min-height:100svh; display:grid; grid-template-columns:minmax(520px,1.15fr) minmax(480px,.85fr); background:var(--color-surface-soft); }
+.brand-panel { position:relative; min-height:100svh; overflow:hidden; padding:40px 48px; display:flex; background:url('../images/clinica-ambiente-lilas.png') 58% center/cover no-repeat; }
+.brand-panel__overlay { position:absolute; inset:0; background:linear-gradient(90deg,rgba(37,32,68,.34),rgba(73,63,108,.08) 52%,rgba(241,240,247,.98)),linear-gradient(0deg,rgba(36,30,66,.58),transparent 62%); }
+.brand-message { position:relative; z-index:1; max-width:540px; margin-top:auto; padding-bottom:54px; color:#fff; text-shadow:0 2px 18px rgba(11,27,35,.22); }
+.eyebrow { display:flex; align-items:center; gap:10px; margin-bottom:20px; color:#eeecff; text-transform:uppercase; letter-spacing:.16em; font-size:12px; font-weight:700; }
+.eyebrow span { width:30px; height:2px; background:var(--color-primary); }
+.brand-message h1 { max-width:570px; margin:0 0 18px; font-size:clamp(38px,4vw,58px); line-height:1.03; letter-spacing:-.045em; font-weight:600; }
+.brand-message>p { max-width:520px; margin:0; color:rgba(255,255,255,.83); font-size:16px; line-height:1.65; }
+.form-panel { position:relative; min-height:100svh; display:flex; flex-direction:column; padding:34px clamp(42px,5vw,72px) 22px; background:var(--color-surface-soft); }
+.form-wrap { width:100%; max-width:510px; margin:auto; }
+.mobile-brand { display:none; }
+.auth-form-brand { margin:0 auto 8px; text-align:center; }
+.auth-form-logo { width:190px; height:95px; object-fit:contain; }
+.auth-form-logo-dark { display:none; }
+.auth-theme-toggle { position:absolute; top:24px; right:24px; }
+.auth-view { animation:auth-enter .3s ease both; }
+@keyframes auth-enter { from { transform:translateY(8px); opacity:.7; } }
+.form-heading { margin-bottom:24px; text-align:center; }
+.form-heading h2 { margin:8px 0; font-size:30px; line-height:1.15; letter-spacing:-.035em; }
+.form-heading p { margin:0; color:var(--color-text-muted); font-size:15px; }
+.field { display:block; margin-bottom:18px; }
+.field>span:first-child { display:block; margin-bottom:8px; font-size:13px; font-weight:600; }
+.input-wrap { height:52px; display:flex; align-items:center; overflow:hidden; border:1px solid var(--color-border); border-radius:11px; background:color-mix(in srgb,var(--color-surface) 55%,var(--color-surface-soft)); transition:.2s; }
+.input-wrap:focus-within { border-color:#a8b3b9; background:var(--color-surface); box-shadow:0 0 0 3px rgba(70,82,90,.1); }
+.input-wrap svg { width:19px; margin-left:16px; fill:none; stroke:#8d9aa2; stroke-width:1.7; }
+.input-wrap input { flex:1; min-width:0; height:100%; padding:0 15px; border:0; outline:0; color:var(--color-text); background:transparent; font-size:14px; }
+.form-panel .input-wrap input:focus-visible { outline:none; }
+.input-wrap input::placeholder { color:#929ca8; }
+.field.invalid .input-wrap { border-color:var(--color-danger); box-shadow:0 0 0 3px rgba(217,92,101,.08); }
+.error { display:none; margin-top:6px; color:var(--color-danger); font-size:11px; }
+.field.invalid .error { display:block; }
+.password-toggle { position:relative; width:45px; height:100%; padding:0; border:0; background:transparent; cursor:pointer; }
+.password-toggle::before { content:""; position:absolute; left:8px; top:19px; width:17px; height:11px; border:1.7px solid #87949c; border-radius:50%; }
+.password-toggle::after { content:""; position:absolute; left:14px; top:22px; width:4px; height:4px; border:1.5px solid #87949c; border-radius:50%; }
+.password-toggle.visible::after { left:7px; top:25px; width:20px; height:1.5px; border:0; border-radius:0; background:#87949c; transform:rotate(-45deg); }
+.form-options { display:flex; align-items:center; justify-content:space-between; margin:-2px 0 25px; }
+.form-options.single-action { justify-content:flex-end; }
+.check { display:flex; align-items:center; gap:9px; color:var(--color-text-muted); font-size:12px; cursor:pointer; }
+.check input { position:absolute; opacity:0; pointer-events:none; }
+.check>span { position:relative; width:18px; height:18px; flex:0 0 auto; border:1px solid #cbd6db; border-radius:5px; }
+.check input:focus-visible+span { outline:3px solid rgba(162,155,254,.35); }
+.check input:checked+span { border-color:var(--color-primary-strong); background:var(--color-primary-strong); }
+.check input:checked+span::after { content:""; position:absolute; left:5px; top:2px; width:5px; height:9px; border:solid #fff; border-width:0 2px 2px 0; transform:rotate(45deg); }
+.text-button { padding:0; border:0; background:none; color:var(--color-primary-strong); font-size:12px; font-weight:600; text-decoration:none; cursor:pointer; }
+.primary-button { width:100%; height:54px; display:flex; align-items:center; justify-content:center; gap:14px; border:0; border-radius:11px; background:var(--color-primary); color:#27233f; font-weight:700; text-decoration:none; box-shadow:0 8px 20px rgba(129,121,232,.24); cursor:pointer; transition:.2s; }
+.primary-button:hover { background:#938bf4; transform:translateY(-1px); }
+.primary-button:disabled { opacity:.72; cursor:wait; transform:none; }
+.primary-button b { font-size:20px; font-weight:400; }
+.inline-message,.access-copy { color:var(--color-text-muted); font-size:12px; line-height:1.5; }
+.inline-message { margin:-13px 0 18px; }
+.access-copy { margin:27px 0 0; text-align:center; }
+.notice { margin-bottom:22px; padding:12px 14px; border-radius:10px; font-size:12px; line-height:1.5; }
+.error-notice { border:1px solid #f4d5d8; background:#fff1f2; color:#a23f48; }
+.success-notice { border:1px solid #cfe9df; background:#edf9f4; color:#28735a; }
+.back-link { display:inline-flex; align-items:center; gap:8px; margin-bottom:10px; color:var(--color-text-muted); font-size:12px; font-weight:600; text-decoration:none; }
+.back-link:hover { color:var(--color-primary-strong); }
+.recovery-icon { width:54px; height:54px; display:grid; place-items:center; margin:8px auto 10px; border:1px solid color-mix(in srgb,var(--color-primary) 32%,var(--color-border)); border-radius:17px; background:color-mix(in srgb,var(--color-primary) 13%,var(--color-surface)); color:var(--color-primary-strong); }
+.recovery-icon svg { width:27px; height:27px; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
+.recovery-heading { margin-bottom:26px; }
+.step-label { color:var(--color-primary-strong); text-transform:uppercase; letter-spacing:.14em; font-size:10px; font-weight:700; }
+.privacy-note,.password-hint { margin:-6px 0 20px; color:var(--color-text-muted); font-size:11px; line-height:1.55; }
+.code-input-wrap input { padding-left:22px; text-align:center; letter-spacing:.5em; font-size:19px; font-weight:700; font-variant-numeric:tabular-nums; }
+.recovery-confirmation { text-align:center; }
+.confirmation-mark { width:48px; height:48px; display:grid; place-items:center; margin:0 auto 14px; border-radius:50%; background:#dff4ea; color:#28735a; font-size:22px; font-weight:700; }
+.recovery-confirmation h3 { margin:0 0 10px; font-size:21px; }
+.recovery-confirmation p { margin:0 auto 10px; color:var(--color-text-muted); font-size:13px; line-height:1.55; }
+.recovery-confirmation .primary-button { margin-top:24px; }
+.confirmation-retry { margin-top:20px; }
+.form-panel footer { padding-top:20px; color:#929ba3; text-align:center; font-size:10px; }
+[data-theme='dark'] .brand-panel__overlay { background:linear-gradient(90deg,rgba(16,12,31,.52),rgba(27,21,48,.28) 52%,#1d1b29),linear-gradient(0deg,rgba(14,10,28,.78),transparent 62%); }
+[data-theme='dark'] .auth-shell,[data-theme='dark'] .form-panel { background:var(--color-surface); }
+[data-theme='dark'] .auth-form-logo-light { display:none; }
+[data-theme='dark'] .auth-form-logo-dark { display:inline-block; }
+@media(max-width:900px){.auth-shell{display:block}.brand-panel{display:none}.form-panel{width:min(620px,100%);margin:auto;padding:26px 24px 18px}.mobile-brand{display:none}.form-wrap{max-width:500px}}
+@media(max-width:520px){.form-panel{padding:20px 18px 15px}.auth-form-logo{width:155px;height:78px}.auth-theme-toggle{right:16px;top:16px}.form-options{align-items:flex-start}}

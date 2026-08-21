@@ -99,6 +99,16 @@ dotnet user-secrets set "ConnectionStrings:SqlServer" \
   --project Odonto.Backend/Odonto.API/Odonto.API.csproj
 ```
 
+Para habilitar o envio dos códigos de redefinição de senha, configure também o
+SMTP por User Secrets. Não armazene a senha do e-mail em `appsettings.json`:
+
+```bash
+dotnet user-secrets set "EmailSmtpCliente" "smtp.exemplo.com" --project Odonto.Backend/Odonto.API/Odonto.API.csproj
+dotnet user-secrets set "EmailSmtpPorta" "587" --project Odonto.Backend/Odonto.API/Odonto.API.csproj
+dotnet user-secrets set "EmailSmtpUsuario" "sistema@exemplo.com" --project Odonto.Backend/Odonto.API/Odonto.API.csproj
+dotnet user-secrets set "EmailSmtpSenha" "SENHA_DO_SMTP" --project Odonto.Backend/Odonto.API/Odonto.API.csproj
+```
+
 ### 4. Instale a ferramenta do EF Core
 
 ```bash
@@ -184,7 +194,11 @@ Em ferramentas gráficas, utilize:
 dotnet build Odonto.Backend/Odonto.Backend.sln
 
 # Executar os testes
-dotnet test Odonto.Backend/Odonto.Tests/Odonto.Tests.csproj
+dotnet test --project Odonto.Backend/Odonto.Tests/Odonto.Tests.csproj
+
+# Executar os testes com cobertura (formato Cobertura)
+dotnet test --project Odonto.Backend/Odonto.Tests/Odonto.Tests.csproj -- \
+  --coverage --coverage-output-format cobertura
 
 # Ver as migrations
 dotnet ef migrations list \

@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Painel interno Almeida Estética e Sorriso" />
+    <title>Visão geral — Almeida</title>
+    <script src="theme-init.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="dashboard.css" />
+    <link rel="stylesheet" href="soft-calm.css" />
+    <link rel="stylesheet" href="entity-modal.css" />
+    <link rel="stylesheet" href="theme.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" id="sidebar">
+        <a class="sidebar__brand" href="dashboard.html" aria-label="Página inicial Almeida">
+          <img class="brand-logo brand-logo--expanded brand-logo--light" src="assets/almeida-lilas-transparente.png" alt="Almeida Estética e Sorriso" />
+          <img class="brand-logo brand-logo--expanded brand-logo--dark" src="assets/almeida-branco.png" alt="Almeida Estética e Sorriso" />
+          <img class="brand-logo brand-logo--compact brand-logo--light" src="logoColapsavel.png" alt="" aria-hidden="true" />
+          <img class="brand-logo brand-logo--compact brand-logo--dark" src="logoColapsavel-branco.png" alt="" aria-hidden="true" />
+        </a>
+
+        <nav class="main-nav" aria-label="Navegação principal">
+          <p>Principal</p>
+          <a class="active" href="dashboard.html"><span class="nav-icon" data-icon="grid"></span><span>Visão geral</span></a>
+          <a href="modulo.html?page=agenda"><span class="nav-icon" data-icon="calendar"></span><span>Agenda</span><b>8</b></a>
+          <a href="modulo.html?page=pacientes"><span class="nav-icon" data-icon="users"></span><span>Pacientes</span></a>
+          <p>Clínica</p>
+          <a href="modulo.html?page=atendimentos"><span class="nav-icon" data-icon="tooth"></span><span>Atendimentos</span></a>
+          <a href="modulo.html?page=prontuarios"><span class="nav-icon" data-icon="file"></span><span>Prontuários</span></a>
+          <a href="modulo.html?page=financeiro"><span class="nav-icon" data-icon="wallet"></span><span>Financeiro</span></a>
+          <a href="modulo.html?page=estoque"><span class="nav-icon" data-icon="package"></span><span>Estoque</span><b>3</b></a>
+          <a href="modulo.html?page=relatorios"><span class="nav-icon" data-icon="chart"></span><span>Relatórios</span></a>
+          <p>Administração</p>
+          <a href="modulo.html?page=equipe"><span class="nav-icon" data-icon="team"></span><span>Equipe</span></a>
+          <a href="modulo.html?page=configuracoes"><span class="nav-icon" data-icon="settings"></span><span>Configurações</span></a>
+        </nav>
+
+        <div class="sidebar__help">
+          <span>?</span>
+          <div><strong>Precisa de ajuda?</strong><small>Consulte o guia interno</small></div>
+        </div>
+        <button class="collapse-button" id="collapse-sidebar" type="button" aria-controls="sidebar" aria-label="Recolher menu" aria-expanded="true" title="Recolher menu">‹</button>
+      </aside>
+
+      <main class="workspace">
+        <header class="topbar">
+          <button class="mobile-menu" id="mobile-menu" aria-label="Abrir menu"><span></span><span></span><span></span></button>
+          <div class="search-box">
+            <span data-icon="search"></span>
+            <input type="search" id="global-search" placeholder="Buscar paciente, telefone ou CPF..." aria-label="Busca global" />
+            <kbd>⌘ K</kbd>
+          </div>
+          <div class="topbar__actions">
+            <button class="theme-toggle" type="button" aria-label="Ativar modo escuro" title="Alternar tema">☾</button>
+            <button class="icon-button" aria-label="Notificações" id="notification-button"><span data-icon="bell"></span><i></i></button>
+            <span class="topbar__divider"></span>
+            <button class="profile-button" id="profile-button" aria-expanded="false">
+              <span class="avatar">JG</span>
+              <span class="profile-copy"><strong>Julia Guerra de Almeida</strong><small>Proprietária</small></span>
+              <span class="chevron">⌄</span>
+            </button>
+            <div class="profile-menu" id="profile-menu">
+              <a href="modulo.html?page=perfil">Meu perfil</a><a href="modulo.html?page=perfil#preferencias">Preferências</a><a href="index.html">Sair do sistema</a>
+            </div>
+          </div>
+        </header>
+
+        <div class="page-content">
+          <section class="welcome-row">
+            <div>
+              <p class="date-label" id="current-date"></p>
+              <h1 id="welcome-heading">Bom dia, Julia <span aria-hidden="true">👋</span></h1>
+              <p>A clínica começa o dia com <strong>8 atendimentos agendados.</strong></p>
+            </div>
+            <div class="welcome-actions">
+              <a class="secondary-button" href="modulo.html?page=novo-paciente"><span data-icon="user-plus"></span>Novo paciente</a>
+              <a class="primary-button" href="modulo.html?page=novo-agendamento"><span>＋</span>Novo agendamento</a>
+            </div>
+          </section>
+
+          <section class="metrics" aria-label="Resumo do dia">
+            <article class="metric-card">
+              <span class="metric-icon blue" data-icon="calendar"></span>
+              <div><p>Consultas hoje</p><strong>8</strong><small><em>6 confirmadas</em> · 2 pendentes</small></div>
+              <a href="modulo.html?page=agenda">Ver agenda →</a>
+            </article>
+            <article class="metric-card">
+              <span class="metric-icon green" data-icon="check"></span>
+              <div><p>Atendimentos concluídos</p><strong>3</strong><small><em>37,5%</em> da agenda de hoje</small></div>
+              <a href="modulo.html?page=atendimentos">Acompanhar →</a>
+            </article>
+            <article class="metric-card">
+              <span class="metric-icon amber" data-icon="clock"></span>
+              <div><p>Retornos pendentes</p><strong>5</strong><small><em>2 prioritários</em> para contato</small></div>
+              <a href="modulo.html?page=agenda&filtro=pendentes">Revisar lista →</a>
+            </article>
+            <article class="metric-card">
+              <span class="metric-icon purple" data-icon="wallet"></span>
+              <div><p>Recebimentos do dia</p><strong>R$ 2.840</strong><small><em>4 pagamentos</em> registrados</small></div>
+              <a href="modulo.html?page=financeiro">Ver financeiro →</a>
+            </article>
+          </section>
+
+          <div class="dashboard-grid">
+            <section class="panel schedule-panel" id="agenda">
+              <header class="panel__header">
+                <div><h2>Agenda de hoje</h2><p>Segunda-feira, 17 de agosto</p></div>
+                <div class="panel-actions"><button class="filter-button"><span data-icon="filter"></span>Todos os profissionais</button><button class="dots" aria-label="Mais opções">•••</button></div>
+              </header>
+              <div class="schedule-list">
+                <article class="appointment done">
+                  <time>08:00<small>45 min</small></time><span class="timeline-dot"></span>
+                  <div class="patient-avatar pastel-blue">JS</div>
+                  <div class="appointment__main"><strong>João da Silva</strong><span>Limpeza e avaliação</span></div>
+                  <div class="professional"><span class="tiny-avatar">DA</span><small>Dra. Almeida</small></div>
+                  <span class="status completed">Concluído</span><button class="row-menu">•••</button>
+                </article>
+                <article class="appointment current">
+                  <time>09:00<small>60 min</small></time><span class="timeline-dot"></span>
+                  <div class="patient-avatar pastel-pink">AC</div>
+                  <div class="appointment__main"><strong>Ana Carolina</strong><span>Clareamento · Sessão 2</span></div>
+                  <div class="professional"><span class="tiny-avatar">DA</span><small>Dra. Almeida</small></div>
+                  <span class="status attending">Em atendimento</span><button class="row-menu">•••</button>
+                </article>
+                <article class="appointment">
+                  <time>10:30<small>45 min</small></time><span class="timeline-dot"></span>
+                  <div class="patient-avatar pastel-yellow">RM</div>
+                  <div class="appointment__main"><strong>Rafael Martins</strong><span>Restauração</span></div>
+                  <div class="professional"><span class="tiny-avatar green-avatar">DM</span><small>Dr. Marcelo</small></div>
+                  <span class="status confirmed">Confirmado</span><button class="row-menu">•••</button>
+                </article>
+                <article class="appointment">
+                  <time>11:30<small>30 min</small></time><span class="timeline-dot"></span>
+                  <div class="patient-avatar pastel-purple">CB</div>
+                  <div class="appointment__main"><strong>Camila Barbosa</strong><span>Avaliação inicial</span></div>
+                  <div class="professional"><span class="tiny-avatar">DA</span><small>Dra. Almeida</small></div>
+                  <span class="status pending">Aguardando confirmação</span><button class="row-menu">•••</button>
+                </article>
+                <article class="appointment faded">
+                  <time>14:00<small>60 min</small></time><span class="timeline-dot"></span>
+                  <div class="patient-avatar pastel-green">LP</div>
+                  <div class="appointment__main"><strong>Lucas Pereira</strong><span>Tratamento de canal</span></div>
+                  <div class="professional"><span class="tiny-avatar green-avatar">DM</span><small>Dr. Marcelo</small></div>
+                  <span class="status confirmed">Confirmado</span><button class="row-menu">•••</button>
+                </article>
+              </div>
+              <footer class="panel__footer"><a href="modulo.html?page=agenda">Ver agenda completa <span>→</span></a><small>Mais 3 atendimentos hoje</small></footer>
+            </section>
+
+            <aside class="side-column">
+              <section class="panel next-panel">
+                <header class="panel__header"><div><span class="live-dot"></span><h2>Próximo atendimento</h2></div><span class="time-until">em 28 min</span></header>
+                <div class="next-patient">
+                  <div class="patient-avatar large pastel-yellow">RM</div>
+                  <div><h3>Rafael Martins</h3><p>10:30 · Restauração</p></div>
+                </div>
+                <dl><div><dt>Profissional</dt><dd>Dra. Almeida</dd></div><div><dt>Última consulta</dt><dd>12 jun. 2026</dd></div></dl>
+                <div class="patient-alert"><span>!</span><p><strong>Atenção</strong>Alergia a dipirona registrada</p></div>
+                <div class="next-actions"><a href="modulo.html?page=paciente&id=rafael">Ver paciente</a><a class="start-button" href="modulo.html?page=atendimento&id=rafael">Iniciar atendimento</a></div>
+              </section>
+
+              <section class="panel tasks-panel" id="pendencias">
+                <header class="panel__header"><div><h2>Pendências</h2><p>Ações que precisam da sua atenção</p></div><span class="count">4</span></header>
+                <ul>
+                  <li><span class="task-icon amber" data-icon="message"></span><div><strong>2 consultas sem confirmação</strong><small>Hoje, às 11:30 e 16:00</small></div><button>→</button></li>
+                  <li><span class="task-icon red" data-icon="wallet"></span><div><strong>Pagamento em atraso</strong><small>Mariana Souza · há 3 dias</small></div><button>→</button></li>
+                  <li><span class="task-icon blue" data-icon="return"></span><div><strong>2 retornos para agendar</strong><small>Contatar até amanhã</small></div><button>→</button></li>
+                </ul>
+                <a href="modulo.html?page=agenda&filtro=pendentes">Ver todas as pendências</a>
+              </section>
+            </aside>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <div class="modal-backdrop" id="modal-backdrop">
+      <div class="quick-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <button class="modal-close" id="modal-close" aria-label="Fechar">×</button>
+        <span class="modal-icon" id="modal-icon">＋</span>
+        <h2 id="modal-title">Novo agendamento</h2>
+        <p id="modal-description">Esta ação abrirá o fluxo completo no próximo módulo.</p>
+        <button class="primary-button" id="modal-confirm">Entendi</button>
+      </div>
+    </div>
+    <div class="mobile-overlay" id="mobile-overlay"></div>
+    <script src="dashboard.js"></script>
+    <script src="entity-modal.js"></script>
+    <script src="theme.js"></script>
+  </body>
+</html>

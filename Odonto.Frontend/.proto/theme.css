@@ -1,0 +1,134 @@
+/* Identidade Almeida, legibilidade operacional e temas compartilhados. */
+:root{--blue:#a29bfe;--blue-dark:#8179e8;--blue-deep:#8179e8;--bg:#f1f0f7;--brand-bg:#f1f0f7;--surface-soft:#f1f0f7}
+.theme-toggle{width:40px;height:40px;display:grid;place-items:center;flex:0 0 auto;border:1px solid var(--line);border-radius:10px;background:var(--white,#fff);color:var(--ink);font-size:18px;line-height:1;cursor:pointer}
+.theme-toggle:focus-visible,a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid rgba(162,155,254,.48);outline-offset:2px}
+.sidebar__brand img{mix-blend-mode:normal}
+.sidebar,.workspace,.topbar,body{background:var(--surface-soft)}
+
+/* Acesso: composição clínica sóbria com transição contínua entre foto e formulário. */
+.auth-shell{display:grid;grid-template-columns:minmax(520px,1.15fr) minmax(480px,.85fr);background:var(--brand-bg)}
+.brand-panel{display:flex;background-image:url("assets/clinica-ambiente-lilas.png");background-position:58% center}
+.brand-panel__overlay{background:linear-gradient(90deg,rgba(37,32,68,.34),rgba(73,63,108,.08) 52%,rgba(241,240,247,.98) 100%),linear-gradient(0deg,rgba(36,30,66,.58),transparent 62%)}
+.brand-panel__header{padding-top:4px}
+.brand-logo{width:210px;filter:drop-shadow(0 4px 14px rgba(31,25,55,.2))}
+.brand-message{max-width:540px;padding-bottom:54px;text-shadow:0 2px 18px rgba(11,27,35,.22)}
+.brand-message h1{font-size:clamp(38px,4vw,58px)}
+.brand-message>p{font-size:16px}
+.form-panel{position:relative;width:100%;min-height:100svh;margin:0;padding:34px clamp(42px,5vw,72px) 22px;background:var(--brand-bg);box-shadow:none}
+.auth-form-brand{width:100%;margin:0 auto 8px;text-align:center}
+.auth-form-logo{width:190px;height:95px;object-fit:contain}
+.auth-form-logo-dark{display:none}
+.auth-theme-toggle{position:absolute;right:24px;top:24px}
+.form-heading{margin-bottom:24px;text-align:center}
+.form-heading h2{font-size:30px}
+.form-heading p{font-size:15px}
+
+/* Lilás Almeida como cor de ação, foco e seleção. */
+.primary-button,.action-primary,.head-actions .action-primary,.form-actions .action-primary,.entity-footer .entity-submit,.next-actions .start-button{border-color:#a29bfe!important;background:#a29bfe!important;color:#27233f!important;box-shadow:0 8px 20px rgba(129,121,232,.24)!important}
+.primary-button:hover,.action-primary:hover{background:#938bf4!important}
+.main-nav a.active{background:#eeeefe!important;color:#6f67d5!important}
+.main-nav a b,.sidebar__help>span,.count,.modal-icon,.entity-heading>span{background:#eeecff!important;color:#7068d8!important}
+.table-link,.breadcrumb a,.date-label,.panel__footer a,.tasks-panel>a{color:#7068d8!important}
+.segmented button.active,.settings-nav button.active,.tabs a.active{background:#efedff!important;color:#6f67d5!important}
+.tabs a.active{border-color:#a29bfe!important}
+.mini-grid .today,.current .timeline-dot,.professional-option i{background:#a29bfe!important;border-color:#a29bfe!important}
+.calendar-event,.tooth-item:hover,.tooth-item.selected{border-color:#a29bfe!important;background:#f0efff!important;color:#625ba8!important}
+.blue,.badge.blue,.metric-icon.blue{background:#efedff!important;color:#6f67d5!important}
+.bar{background:linear-gradient(#c8c4ff,#a29bfe)!important}
+.avatar{background:linear-gradient(135deg,#bbb6ff,#8179e8)!important}
+.input-wrap:focus-within,.filter-input:focus,.select-soft:focus,.soft-form input:focus,.soft-form select:focus,.soft-form textarea:focus,.entity-field input:focus,.entity-field select:focus,.entity-field textarea:focus{border-color:#a29bfe!important;box-shadow:0 0 0 4px rgba(162,155,254,.18)!important}
+.theme-toggle:focus-visible,a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline-color:rgba(162,155,254,.48)}
+.form-panel .input-wrap:focus-within{border-color:#a8b3b9!important;background:#f7f8fa;box-shadow:0 0 0 3px rgba(70,82,90,.1)!important}
+.form-panel input:focus-visible{outline:none}
+
+/* O conteúdo de trabalho nunca depende de microtexto. */
+.grid-legibility .module-head>div>p,.welcome-row>div>p:last-child{font-size:15px;line-height:1.55}
+.grid-legibility .data-table th{font-size:12px}.grid-legibility .data-table td{font-size:14px;line-height:1.5}
+.grid-legibility .person-cell strong,.grid-legibility .appointment__main strong{font-size:14px}
+.grid-legibility .person-cell small,.grid-legibility .appointment__main span,.grid-legibility .professional small{font-size:12px}
+.grid-legibility .badge,.grid-legibility .table-link,.grid-legibility .status{font-size:12px}
+.grid-legibility .metric-card p{font-size:13px}.grid-legibility .metric-card small,.grid-legibility .metric-card a{font-size:12px}
+.grid-legibility .panel__header p,.grid-legibility .next-patient p,.grid-legibility .tasks-panel li small{font-size:12px;line-height:1.45}
+.grid-legibility .tasks-panel li strong,.grid-legibility .next-panel dd,.grid-legibility .next-panel dt{font-size:13px}
+.grid-legibility .patient-alert{padding:14px;border-width:2px}.grid-legibility .patient-alert p,.grid-legibility .patient-alert strong{font-size:14px;line-height:1.4}
+.grid-legibility .clinical-alert{padding:16px;font-size:16px;line-height:1.55;border-width:2px}.grid-legibility .clinical-alert strong{font-size:15px}
+.grid-legibility .timeline-item p,.grid-legibility .form-section>p,.grid-legibility .info-row span,.grid-legibility .info-row strong{font-size:14px;line-height:1.55}
+.grid-legibility .entity-heading p,.grid-legibility .entity-field,.grid-legibility .entity-success p{font-size:13px}.grid-legibility .entity-field input,.grid-legibility .entity-field select,.grid-legibility .entity-field textarea{font-size:14px}
+.grid-legibility .module-head h1{font-size:28px}.grid-legibility .breadcrumb{font-size:12px}
+.grid-legibility .head-actions a,.grid-legibility .head-actions button,.grid-legibility .form-actions a,.grid-legibility .form-actions button{font-size:13px}
+.grid-legibility .filter-input,.grid-legibility .select-soft,.grid-legibility .segmented button{font-size:13px}
+.grid-legibility .soft-form label{font-size:13px}.grid-legibility .soft-form input,.grid-legibility .soft-form select,.grid-legibility .soft-form textarea{font-size:14px}
+.grid-legibility .form-section h2,.grid-legibility .detail-panel h2,.grid-legibility .chart-card h2{font-size:16px}
+.grid-legibility .mini-grid,.grid-legibility .professional-option,.grid-legibility .timeline-item time,.grid-legibility .tabs a,.grid-legibility .settings-nav button{font-size:12px}
+.grid-legibility .timeline-item h3,.grid-legibility .patient-quick strong,.grid-legibility .team-card h3{font-size:14px}
+.grid-legibility .finance-card span,.grid-legibility .finance-card small{font-size:12px;line-height:1.45}.grid-legibility .finance-card strong{font-size:22px}
+
+[data-theme="dark"]{--ink:#e8f1f4;--muted:#aab9c1;--line:#3e3c55;--bg:#13121b;--white:#1d1b29;--blue:#a29bfe;--blue-dark:#bbb6ff}
+[data-theme="dark"] body{background:#13121b;color:var(--ink)}
+[data-theme="dark"] .workspace,[data-theme="dark"] .page-content,[data-theme="dark"] .module-content{background:#13121b}
+[data-theme="dark"] .auth-shell{background:#1d1b29}
+[data-theme="dark"] .brand-panel__overlay{background:linear-gradient(90deg,rgba(16,12,31,.52),rgba(27,21,48,.28) 52%,#1d1b29 100%),linear-gradient(0deg,rgba(14,10,28,.78),transparent 62%)}
+[data-theme="dark"] .form-panel,[data-theme="dark"] .sidebar,[data-theme="dark"] .panel,[data-theme="dark"] .content-card,[data-theme="dark"] .metric-card,[data-theme="dark"] .topbar,[data-theme="dark"] .profile-menu,[data-theme="dark"] .quick-modal,[data-theme="dark"] .entity-dialog,[data-theme="dark"] .entity-field input,[data-theme="dark"] .entity-field select,[data-theme="dark"] .entity-field textarea,[data-theme="dark"] .secondary-button,[data-theme="dark"] .filter-button,[data-theme="dark"] .dots,[data-theme="dark"] .select-soft,[data-theme="dark"] .filter-input,[data-theme="dark"] .soft-form input,[data-theme="dark"] .soft-form select,[data-theme="dark"] .soft-form textarea{background:#1d1b29;color:var(--ink);border-color:var(--line)}
+[data-theme="dark"] .topbar{background:rgba(29,27,41,.94)}
+[data-theme="dark"] .search-box,[data-theme="dark"] .sidebar__help,[data-theme="dark"] .entity-footer,[data-theme="dark"] .entity-close{background:#29263a;color:var(--ink)}
+[data-theme="dark"] .search-box input,[data-theme="dark"] .input-wrap input{color:var(--ink)}
+[data-theme="dark"] .input-wrap{background:#29263a;border-color:var(--line)}
+[data-theme="dark"] .form-panel .input-wrap:focus-within{border-color:#777386!important;background:#2d2a3d;box-shadow:0 0 0 3px rgba(196,191,255,.08)!important}
+[data-theme="dark"] .sidebar__brand img{mix-blend-mode:screen;filter:brightness(1.35) contrast(.9)}
+[data-theme="dark"] .auth-form-logo-light{display:none}
+[data-theme="dark"] .auth-form-logo-dark{display:inline-block}
+[data-theme="dark"] .main-nav a:hover,[data-theme="dark"] .profile-menu button:hover,[data-theme="dark"] .profile-menu a:hover,[data-theme="dark"] .appointment.current{background:#2b283d}
+[data-theme="dark"] .main-nav a.active{background:#322e4d!important;color:#c4bfff!important}
+[data-theme="dark"] .data-table td,[data-theme="dark"] .appointment,[data-theme="dark"] .tasks-panel li{border-color:var(--line)}
+[data-theme="dark"] .data-table td,[data-theme="dark"] .person-cell strong,[data-theme="dark"] .calendar-header strong,[data-theme="dark"] .form-section h2,[data-theme="dark"] .soft-form label,[data-theme="dark"] .patient-identity h2,[data-theme="dark"] .patient-quick strong,[data-theme="dark"] .timeline-item h3,[data-theme="dark"] .info-row strong,[data-theme="dark"] .chart-card h2,[data-theme="dark"] .team-card h3,[data-theme="dark"] .settings-panel h2,[data-theme="dark"] .entity-heading h2,[data-theme="dark"] .entity-section h3,[data-theme="dark"] .entity-success h3{color:var(--ink)}
+[data-theme="dark"] .data-table th,[data-theme="dark"] .data-table tr:hover td,[data-theme="dark"] .tabs,[data-theme="dark"] .calendar-header,[data-theme="dark"] .calendar-row>div,[data-theme="dark"] .tooth-item,[data-theme="dark"] .segmented,[data-theme="dark"] .settings-nav button.active{background:#242232;color:var(--muted);border-color:var(--line)}
+[data-theme="dark"] .appointment.current,[data-theme="dark"] .calendar-event,[data-theme="dark"] .tooth-item:hover,[data-theme="dark"] .tooth-item.selected{background:#2d2944!important}
+[data-theme="dark"] .secondary-button,[data-theme="dark"] .next-actions a:not(.start-button),[data-theme="dark"] .head-actions a,[data-theme="dark"] .form-actions a{background:#242232;color:var(--ink);border-color:var(--line)}
+[data-theme="dark"] .donut::after{background:#1d1b29}
+[data-theme="dark"] input::placeholder,[data-theme="dark"] textarea::placeholder{color:#858198}
+[data-theme="dark"] .clinical-alert,[data-theme="dark"] .patient-alert{background:#3b3020;color:#ffd894;border-color:#7a5b27}
+[data-theme="dark"] .toast{background:#29263a;color:var(--ink);border-color:var(--line)}
+
+@media(max-width:900px){.auth-shell{display:block}.brand-panel{display:none}.form-panel{width:min(620px,100%);margin:auto;box-shadow:0 0 70px rgba(41,71,84,.12)}}
+@media(max-width:620px){.form-panel{padding:24px 18px 18px}.auth-form-logo{width:155px;height:78px}.auth-theme-toggle{right:16px;top:16px}.topbar__actions{gap:6px}.theme-toggle{width:36px;height:36px}}
+
+/* Variantes de marca para as superfícies claras e escuras. */
+[data-theme="dark"] .sidebar__brand .brand-logo--light{display:none}
+[data-theme="dark"] .sidebar__brand .brand-logo--dark{display:block;mix-blend-mode:normal;filter:none}
+[data-theme="dark"] .sidebar.collapsed .sidebar__brand .brand-logo--expanded{display:none}
+[data-theme="dark"] .sidebar:not(.collapsed) .sidebar__brand .brand-logo--compact{display:none}
+[data-theme="dark"].sidebar-state-collapsed .sidebar .sidebar__brand .brand-logo--light{display:none}
+[data-theme="dark"].sidebar-state-collapsed .sidebar .sidebar__brand .brand-logo--dark.brand-logo--compact{display:block;mix-blend-mode:normal;filter:none}
+[data-theme="dark"].sidebar-state-collapsed .sidebar .sidebar__brand .brand-logo--expanded{display:none}
+@media(max-width:800px){
+  [data-theme="dark"] .sidebar.collapsed .sidebar__brand .brand-logo--expanded.brand-logo--dark{display:block}
+  [data-theme="dark"] .sidebar.collapsed .sidebar__brand .brand-logo--compact{display:none}
+  [data-theme="dark"].sidebar-state-collapsed .sidebar .sidebar__brand .brand-logo--expanded.brand-logo--dark{display:block}
+  [data-theme="dark"].sidebar-state-collapsed .sidebar .sidebar__brand .brand-logo--compact{display:none}
+}
+
+/* Dropdowns nativos com aparência consistente no sistema. */
+select{
+  appearance:none;
+  -webkit-appearance:none;
+  padding-right:38px!important;
+  border-color:var(--line)!important;
+  background-color:var(--white,#fff)!important;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2371688f' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m7 10 5 5 5-5'/%3E%3C/svg%3E")!important;
+  background-repeat:no-repeat!important;
+  background-position:right 12px center!important;
+  color:var(--ink)!important;
+  cursor:pointer;
+  transition:border-color .18s ease,box-shadow .18s ease,background-color .18s ease;
+}
+select:hover{border-color:#b8b1ec!important}
+select:focus-visible{outline:0;box-shadow:0 0 0 4px rgba(162,155,254,.16)!important;border-color:#9b93ee!important}
+select:disabled{cursor:not-allowed;opacity:.58}
+select option{background:#fff;color:#302d40}
+[data-theme="dark"] select{
+  background-color:#242232!important;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23c4bfff' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m7 10 5 5 5-5'/%3E%3C/svg%3E")!important;
+  color:#eeecf6!important;
+}
+[data-theme="dark"] select:hover{border-color:#5f587d!important}
+[data-theme="dark"] select option{background:#242232;color:#eeecf6}

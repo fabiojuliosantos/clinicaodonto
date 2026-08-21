@@ -1,0 +1,24 @@
+:root {
+  --font-family-sans: 'DM Sans', system-ui, sans-serif;
+  --color-background: #f1f0f7;
+  --color-surface: #fff;
+  --color-surface-soft: #f1f0f7;
+  --color-text: #344b58;
+  --color-text-muted: #7d8d93;
+  --color-border: #e1e2e8;
+  --color-primary: #a29bfe;
+  --color-primary-strong: #8179e8;
+  --color-danger: #d95c65;
+  --sidebar-width: 238px;
+}
+
+[data-theme='dark'] {
+  --color-background: #13121b;
+  --color-surface: #1d1b29;
+  --color-surface-soft: #13121b;
+  --color-text: #e8f1f4;
+  --color-text-muted: #aab9c1;
+  --color-border: #3e3c55;
+  --color-primary: #a29bfe;
+  --color-primary-strong: #bbb6ff;
+}
