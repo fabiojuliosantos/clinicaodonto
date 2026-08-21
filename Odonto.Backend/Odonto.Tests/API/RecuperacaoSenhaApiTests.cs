@@ -142,6 +142,9 @@ public sealed class RecuperacaoSenhaApiTests
             builder.UseSetting(
                 "ConnectionStrings:SqlServer",
                 "Server=localhost;Database=OdontoTests;User Id=tests;Password=tests;TrustServerCertificate=True");
+            builder.UseSetting("Jwt:Key", "chave-de-teste-com-tamanho-suficiente-123456");
+            builder.UseSetting("Jwt:Issuer", "Odonto.Tests");
+            builder.UseSetting("Jwt:Audience", "Odonto.Tests");
             builder.ConfigureAppConfiguration((_, configuration) =>
             {
                 configuration.AddInMemoryCollection(new Dictionary<string, string?>
