@@ -34,6 +34,23 @@ describe('proteção das rotas privadas', () => {
     expect(router.currentRoute.value.name).toBe('dashboard')
   })
 
+  it('protege e permite acessar Meu perfil somente com uma sessão válida', async () => {
+    const router = createAppRouter(createMemoryHistory())
+
+    await router.push('/meu-perfil')
+    expect(router.currentRoute.value.name).toBe('login')
+
+    const authStore = useAuthStore()
+    authStore.setSession({
+      token: 'token-valido',
+      refreshToken: 'refresh-token',
+      expiracao: new Date(Date.now() + 60_000).toISOString(),
+    })
+    await router.push('/meu-perfil')
+
+    expect(router.currentRoute.value.name).toBe('my-profile')
+  })
+
   it('limpa a sessão expirada e redireciona para o login', async () => {
     const authStore = useAuthStore()
     authStore.setSession({
