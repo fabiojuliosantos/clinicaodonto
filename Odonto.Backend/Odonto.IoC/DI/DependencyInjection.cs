@@ -81,6 +81,8 @@ public static class DependencyInjection
         // Scoped mantém o serviço no mesmo ciclo de vida do DbContext e do UserManager.
         services.AddScoped<IAutenticacaoService, AutenticacaoService>();
         services.AddScoped<IMeuPerfilService, MeuPerfilService>();
+        services.AddScoped<IFotoPerfilService, FotoPerfilService>();
+        services.AddScoped<IArmazenamentoFotoPerfil, ArmazenamentoLocalFotoPerfil>();
         services.AddScoped<IEmailService, EmailService>();
         services.AddScoped<AdministradorInicialSeeder>();
         return services;

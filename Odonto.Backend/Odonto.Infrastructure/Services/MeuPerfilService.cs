@@ -7,6 +7,8 @@ namespace Odonto.Infrastructure.Services;
 
 public sealed class MeuPerfilService(AppDbContext context) : IMeuPerfilService
 {
+    private const string UrlFotoPerfil = "/api/me/foto";
+
     public Task<MeuPerfilDTO?> ObterAsync(
         Guid funcionarioId,
         CancellationToken cancellationToken = default)
@@ -24,7 +26,7 @@ public sealed class MeuPerfilService(AppDbContext context) : IMeuPerfilService
                 funcionario.NomeExibicao,
                 usuario.Email ?? string.Empty,
                 funcionario.Telefone,
-                funcionario.FotoKey))
+                funcionario.FotoKey == null ? null : UrlFotoPerfil))
             .SingleOrDefaultAsync(cancellationToken);
     }
 
@@ -74,7 +76,7 @@ public sealed class MeuPerfilService(AppDbContext context) : IMeuPerfilService
             funcionario.NomeExibicao,
             usuario.Email ?? string.Empty,
             funcionario.Telefone,
-            funcionario.FotoKey);
+            funcionario.FotoKey is null ? null : UrlFotoPerfil);
     }
 
     private static void ValidarFuncionarioId(Guid funcionarioId)

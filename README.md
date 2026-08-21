@@ -99,6 +99,20 @@ dotnet user-secrets set "ConnectionStrings:SqlServer" \
   --project Odonto.Backend/Odonto.API/Odonto.API.csproj
 ```
 
+Para habilitar o upload da foto de perfil, crie um diretório persistente fora
+do repositório e configure seu caminho absoluto. A API cria os arquivos nesse
+diretório sob chaves aleatórias e não aceita caminhos enviados pelo cliente:
+
+```bash
+dotnet user-secrets set "Storage:ProfilePhotosPath" \
+  "/home/seu-usuario/.local/share/clinica-odonto/fotos-perfil" \
+  --project Odonto.Backend/Odonto.API/Odonto.API.csproj
+```
+
+Em produção, esse diretório deve estar em volume persistente, com permissão de
+leitura e escrita somente para o processo da API. A configuração é exigida
+apenas quando uma operação de foto é executada.
+
 Para habilitar o envio dos códigos de redefinição de senha, configure também o
 SMTP por User Secrets. Não armazene a senha do e-mail em `appsettings.json`:
 

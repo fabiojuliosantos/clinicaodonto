@@ -15,3 +15,13 @@ Authorization: Bearer {{Token}}
   "nomeExibicao": "Fábio",
   "telefone": "81999999999"
 }
+
+###
+
+GET {{Odonto.API_HostAddress}}/api/me/foto
+Authorization: Bearer {{Token}}
+
+###
+
+DELETE {{Odonto.API_HostAddress}}/api/me/foto
+Authorization: Bearer {{Token}}

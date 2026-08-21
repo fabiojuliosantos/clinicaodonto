@@ -188,7 +188,129 @@ public sealed class MeuPerfilApiTests
         Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
     }
 
-    private static WebApplicationFactory<Program> CriarFactory(Mock<IMeuPerfilService> service)
+    [Fact]
+    public async Task AtualizarFoto_SemJwt_RetornaUnauthorizedSemProcessarArquivo()
+    {
+        var perfilService = new Mock<IMeuPerfilService>(MockBehavior.Strict);
+        var fotoService = new Mock<IFotoPerfilService>(MockBehavior.Strict);
+        using var factory = CriarFactory(perfilService, fotoService);
+        using var client = CriarClient(factory);
+        using var form = CriarFormularioFoto([1, 2, 3], "image/png");
+
+        var response = await client.PutAsync(
+            "/api/me/foto",
+            form,
+            TestCancellationToken);
+
+        Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+        fotoService.VerifyNoOtherCalls();
+    }
+
+    [Fact]
+    public async Task AtualizarFoto_JwtValido_UsaFuncionarioDoToken()
+    {
+        var perfilService = new Mock<IMeuPerfilService>(MockBehavior.Strict);
+        var fotoService = new Mock<IFotoPerfilService>(MockBehavior.Strict);
+        fotoService
+            .Setup(service => service.AtualizarAsync(
+                FuncionarioId,
+                It.IsAny<Stream>(),
+                "image/png",
+                4,
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new FotoPerfilDTO("/api/me/foto"));
+        using var factory = CriarFactory(perfilService, fotoService);
+        using var client = CriarClient(factory);
+        AdicionarJwt(client);
+        using var form = CriarFormularioFoto([1, 2, 3, 4], "image/png");
+
+        var response = await client.PutAsync(
+            "/api/me/foto",
+            form,
+            TestCancellationToken);
+        var retorno = await response.Content.ReadFromJsonAsync<FotoPerfilDTO>(
+            TestCancellationToken);
+
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.Equal("/api/me/foto", retorno?.Url);
+        fotoService.VerifyAll();
+    }
+
+    [Fact]
+    public async Task AtualizarFoto_AcimaDeDoisMegabytes_RetornaPayloadTooLarge()
+    {
+        var perfilService = new Mock<IMeuPerfilService>(MockBehavior.Strict);
+        var fotoService = new Mock<IFotoPerfilService>(MockBehavior.Strict);
+        using var factory = CriarFactory(perfilService, fotoService);
+        using var client = CriarClient(factory);
+        AdicionarJwt(client);
+        using var form = CriarFormularioFoto(
+            new byte[FotoPerfilConfiguracao.TamanhoMaximoBytes + 1],
+            "image/jpeg");
+
+        var response = await client.PutAsync(
+            "/api/me/foto",
+            form,
+            TestCancellationToken);
+
+        Assert.Equal(HttpStatusCode.RequestEntityTooLarge, response.StatusCode);
+        fotoService.VerifyNoOtherCalls();
+    }
+
+    [Fact]
+    public async Task ObterFoto_JwtValido_RetornaWebpComCachePrivado()
+    {
+        byte[] conteudo = [82, 73, 70, 70];
+        var perfilService = new Mock<IMeuPerfilService>(MockBehavior.Strict);
+        var fotoService = new Mock<IFotoPerfilService>(MockBehavior.Strict);
+        fotoService
+            .Setup(service => service.ObterAsync(
+                FuncionarioId,
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new ArquivoFotoPerfilDTO(
+                new MemoryStream(conteudo),
+                FotoPerfilConfiguracao.ContentTypeFinal));
+        using var factory = CriarFactory(perfilService, fotoService);
+        using var client = CriarClient(factory);
+        AdicionarJwt(client);
+
+        var response = await client.GetAsync(
+            "/api/me/foto",
+            TestCancellationToken);
+
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.Equal("image/webp", response.Content.Headers.ContentType?.MediaType);
+        Assert.Equal(conteudo, await response.Content.ReadAsByteArrayAsync(TestCancellationToken));
+        Assert.True(response.Headers.CacheControl?.Private);
+        Assert.True(response.Headers.CacheControl?.NoStore);
+        fotoService.VerifyAll();
+    }
+
+    [Fact]
+    public async Task RemoverFoto_JwtValido_RetornaNoContent()
+    {
+        var perfilService = new Mock<IMeuPerfilService>(MockBehavior.Strict);
+        var fotoService = new Mock<IFotoPerfilService>(MockBehavior.Strict);
+        fotoService
+            .Setup(service => service.RemoverAsync(
+                FuncionarioId,
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(true);
+        using var factory = CriarFactory(perfilService, fotoService);
+        using var client = CriarClient(factory);
+        AdicionarJwt(client);
+
+        var response = await client.DeleteAsync(
+            "/api/me/foto",
+            TestCancellationToken);
+
+        Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
+        fotoService.VerifyAll();
+    }
+
+    private static WebApplicationFactory<Program> CriarFactory(
+        Mock<IMeuPerfilService> service,
+        Mock<IFotoPerfilService>? fotoService = null)
     {
         return new WebApplicationFactory<Program>().WithWebHostBuilder(builder =>
         {
@@ -211,8 +333,25 @@ public sealed class MeuPerfilApiTests
             {
                 services.RemoveAll<IMeuPerfilService>();
                 services.AddSingleton(service.Object);
+
+                if (fotoService is not null)
+                {
+                    services.RemoveAll<IFotoPerfilService>();
+                    services.AddSingleton(fotoService.Object);
+                }
             });
         });
+    }
+
+    private static MultipartFormDataContent CriarFormularioFoto(
+        byte[] conteudo,
+        string contentType)
+    {
+        var arquivo = new ByteArrayContent(conteudo);
+        arquivo.Headers.ContentType = new MediaTypeHeaderValue(contentType);
+        var formulario = new MultipartFormDataContent();
+        formulario.Add(arquivo, "foto", "foto.png");
+        return formulario;
     }
 
     private static HttpClient CriarClient(WebApplicationFactory<Program> factory) =>

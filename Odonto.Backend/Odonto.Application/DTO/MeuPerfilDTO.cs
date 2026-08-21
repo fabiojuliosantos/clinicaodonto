@@ -6,4 +6,4 @@ public sealed record MeuPerfilDTO(
     string NomeExibicao,
     string Email,
     string? Telefone,
-    string? FotoKey);
+    string? FotoUrl);

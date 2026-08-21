@@ -43,9 +43,14 @@ conta do Identity, e `funcionario_id`, referente ao agregado `Funcionario`. O
 e-mail não é usado como identificador porque pode ser alterado. `GET /api/me`
 retorna o perfil e `PATCH /api/me` altera somente nome de exibição e telefone.
 Nome completo e e-mail são somente leitura nesse fluxo; alterações
-administrativas continuam pertencendo ao módulo Equipe. O envio e a remoção da
-foto serão tratados separadamente quando o armazenamento de arquivos for
-definido.
+administrativas continuam pertencendo ao módulo Equipe. A foto usa endpoints
+separados em `/api/me/foto`, protegidos pelo mesmo JWT. O upload aceita JPEG,
+PNG ou WebP com até 2 MB, valida o conteúdo, remove metadados e gera um WebP
+quadrado de 512 pixels. O agregado armazena somente uma chave aleatória; o
+arquivo fica em armazenamento local configurável por
+`Storage:ProfilePhotosPath`, abstraído para permitir a adoção futura de um
+serviço externo sem alterar o domínio. A leitura exige autenticação e não usa
+cache público porque se trata de dado pessoal.
 
 ### Autenticação JWT
 

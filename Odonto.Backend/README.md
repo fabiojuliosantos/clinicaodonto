@@ -125,6 +125,12 @@ A API exige `ConnectionStrings:SqlServer`, `Jwt:Key`, `Jwt:Issuer` e
 não deve ser versionada. Em desenvolvimento, use User Secrets ou variáveis de
 ambiente, como `Jwt__Key` e `ConnectionStrings__SqlServer`.
 
+O armazenamento local das fotos de perfil usa a chave
+`Storage:ProfilePhotosPath`, que deve apontar para um diretório absoluto e
+persistente com acesso restrito ao processo da API. O arquivo é normalizado em
+WebP e o banco mantém somente sua chave interna. A configuração só é consultada
+quando uma foto é enviada, consultada ou removida.
+
 ### Primeiro usuário
 
 O primeiro usuário pode ser provisionado na inicialização da API com as chaves
