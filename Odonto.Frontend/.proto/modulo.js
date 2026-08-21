@@ -19,6 +19,15 @@ const params = new URLSearchParams(window.location.search);
 const requestedPage = params.get('page') || 'agenda';
 const page = requestedPage === 'novo-paciente' ? 'pacientes' : requestedPage === 'novo-agendamento' ? 'agenda' : requestedPage;
 const content = document.querySelector('#module-content');
+const profileStorageKey = 'almeida-user-profile';
+const profilePreferenceKey = 'almeida-user-preferences';
+const profileDefaults = { displayName: 'Julia Guerra de Almeida', phone: '(81) 99999-0000' };
+const escapeHtml = value => String(value).replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' })[character]);
+
+function readStoredValue(key, fallback) {
+  try { return { ...fallback, ...JSON.parse(localStorage.getItem(key) || '{}') }; }
+  catch (_) { return { ...fallback }; }
+}
 
 const patients = [
   ['JS','João da Silva','(81) 99945-2210','joao@email.com','Hoje, 08:00','Ativo','pastel-blue','joao'],
@@ -35,7 +44,7 @@ const header = (title, description, actions = '', parent = '') => `
     <div class="head-actions">${actions}</div>
   </header>`;
 
-const labelFor = value => ({agenda:'Agenda',pacientes:'Pacientes',atendimentos:'Atendimentos',prontuarios:'Prontuários',financeiro:'Financeiro',estoque:'Estoque',relatorios:'Relatórios',equipe:'Equipe',configuracoes:'Configurações'})[value] || value;
+const labelFor = value => ({agenda:'Agenda',pacientes:'Pacientes',atendimentos:'Atendimentos',prontuarios:'Prontuários',financeiro:'Financeiro',estoque:'Estoque',relatorios:'Relatórios',equipe:'Equipe',configuracoes:'Configurações',perfil:'Meu perfil'})[value] || value;
 const card = body => `<section class="content-card">${body}</section>`;
 const person = (p, link = true) => `<div class="person-cell"><div class="patient-avatar ${p[6]}">${p[0]}</div><div>${link ? `<a class="table-link" href="modulo.html?page=paciente&id=${p[7]}"><strong>${p[1]}</strong></a>` : `<strong>${p[1]}</strong>`}<small>${p[2]}</small></div></div>`;
 
@@ -128,11 +137,73 @@ function teamPage() {
   content.innerHTML = header('Equipe','Usuários internos, funções e permissões de acesso.',`<button data-toast="Convite enviado para o novo colaborador." class="action-primary">＋ Convidar colaborador</button>`) + `<div class="team-grid">${team.map((m,i)=>`<article class="content-card team-card"><div class="patient-avatar ${m[4]}">${m[0]}</div><h3>${m[1]}</h3><p>${m[2]}</p><span class="badge ${i===3?'amber':'green'}">${i===3?'Convite pendente':'Ativo'}</span><footer><span>${m[3]}</span><button class="table-menu" data-toast="Configuração de ${m[1]} aberta.">•••</button></footer></article>`).join('')}</div>`;
 }
 
+function profilePage() {
+  const profile = readStoredValue(profileStorageKey, profileDefaults);
+  const preferences = readStoredValue(profilePreferenceKey, { reminders: true, dailySummary: true });
+  const displayName = escapeHtml(profile.displayName);
+  const phone = escapeHtml(profile.phone);
+  content.innerHTML = header('Meu perfil','Gerencie seus dados pessoais, segurança e preferências de uso.') + `
+    <div class="profile-layout">
+      <aside class="content-card profile-summary" aria-label="Resumo do perfil">
+        <div class="profile-avatar" id="profile-avatar-preview"><span>JG</span><img id="profile-photo-preview" alt="" hidden></div>
+        <h2 id="profile-summary-name">${displayName}</h2>
+        <p>Proprietária</p>
+        <span class="badge green">Conta ativa</span>
+        <div class="profile-photo-actions">
+          <label class="photo-upload">Alterar foto<input id="profile-photo" type="file" accept="image/png,image/jpeg,image/webp"></label>
+          <small>PNG, JPG ou WebP de até 2 MB. A imagem é apenas pré-visualizada neste protótipo.</small>
+        </div>
+      </aside>
+
+      <div class="profile-main">
+        <section class="content-card profile-section" aria-labelledby="personal-title">
+          <div class="profile-section__head"><div><h2 id="personal-title">Dados pessoais</h2><p>Informações usadas para identificar você no sistema.</p></div></div>
+          <form class="soft-form" id="profile-data-form">
+            <label>Nome completo<input value="Julia Guerra de Almeida" readonly aria-describedby="official-name-help"><small class="field-help" id="official-name-help">Alterações no nome oficial são feitas por um administrador em Equipe.</small></label>
+            <label>Como deseja ser chamada<input id="profile-display-name" name="displayName" value="${displayName}" maxlength="60" autocomplete="name" required></label>
+            <label>E-mail de acesso<input type="email" value="julia@almeida.com.br" readonly aria-describedby="account-email-help"><small class="field-help" id="account-email-help">Vinculado à sua conta de acesso.</small></label>
+            <label>Telefone<input id="profile-phone" name="phone" value="${phone}" inputmode="tel" autocomplete="tel" placeholder="(81) 99999-9999" required></label>
+            <div class="form-actions full"><button class="action-primary" type="submit">Salvar dados pessoais</button></div>
+          </form>
+        </section>
+
+        <section class="content-card profile-section" aria-labelledby="account-title">
+          <div class="profile-section__head"><div><h2 id="account-title">Conta e acesso</h2><p>Dados administrativos visíveis para conferência.</p></div></div>
+          <div class="profile-account-list">
+            <div><span>Cargo</span><strong>Proprietária</strong></div>
+            <div><span>Nível de acesso</span><strong>Acesso total</strong></div>
+            <div><span>Status</span><strong>Ativa</strong></div>
+          </div>
+          <p class="field-help">Cargo, permissões e status são administrados no módulo Equipe e não podem ser alterados por esta página.</p>
+        </section>
+
+        <section class="content-card profile-section" aria-labelledby="security-title">
+          <div class="profile-section__head"><div><h2 id="security-title">Segurança</h2><p>Use uma senha exclusiva para proteger sua conta.</p></div></div>
+          <form class="soft-form" id="password-form">
+            <label class="full">Senha atual<input name="currentPassword" type="password" autocomplete="current-password" minlength="8" required></label>
+            <label>Nova senha<input id="new-profile-password" name="newPassword" type="password" autocomplete="new-password" minlength="8" required><small class="field-help">Use pelo menos 8 caracteres.</small></label>
+            <label>Confirmar nova senha<input id="confirm-profile-password" name="confirmPassword" type="password" autocomplete="new-password" minlength="8" required></label>
+            <div class="form-actions full password-actions"><button class="action-primary" type="submit">Alterar senha</button></div>
+          </form>
+        </section>
+
+        <section class="content-card profile-section" id="preferencias" aria-labelledby="preferences-title">
+          <div class="profile-section__head"><div><h2 id="preferences-title">Preferências</h2><p>Personalize a interface e os avisos da sua rotina.</p></div></div>
+          <div class="preference-list">
+            <label class="preference-row"><span><strong>Aparência</strong><small>Escolha o tema usado no sistema.</small></span><select id="profile-theme"><option value="light">Claro</option><option value="dark">Escuro</option></select></label>
+            <label class="preference-row"><span><strong>Lembretes de agenda</strong><small>Receber avisos sobre compromissos próximos.</small></span><span class="switch-control"><input id="preference-reminders" type="checkbox" ${preferences.reminders ? 'checked' : ''}><span aria-hidden="true"></span></span></label>
+            <label class="preference-row"><span><strong>Resumo diário</strong><small>Exibir um resumo das atividades no início do dia.</small></span><span class="switch-control"><input id="preference-summary" type="checkbox" ${preferences.dailySummary ? 'checked' : ''}><span aria-hidden="true"></span></span></label>
+          </div>
+        </section>
+      </div>
+    </div>`;
+}
+
 function settingsPage() {
   content.innerHTML = header('Configurações','Preferências gerais e segurança do sistema.') + `<div class="settings-layout"><nav class="content-card settings-nav"><button class="active" data-settings="clinic">Dados da clínica</button><button data-settings="hours">Horários</button><button data-settings="security">Segurança</button><button data-settings="notifications">Notificações</button><button data-settings="audit">Auditoria</button></nav><section class="content-card settings-panel" id="settings-panel"><h2>Dados da clínica</h2><p style="color:var(--muted);font-size:9px;margin-bottom:20px">Informações utilizadas em documentos e comunicações.</p><form class="soft-form prototype-form" data-success="Configurações salvas."><label class="full">Nome da clínica<input value="Almeida Estética e Sorriso"></label><label>CNPJ<input placeholder="00.000.000/0000-00"></label><label>Telefone<input value="(81) 99999-0000"></label><label class="full">Endereço<input value="Recife, Pernambuco"></label><label class="full">E-mail institucional<input type="email" value="contato@almeida.com.br"></label><div class="form-actions full"><button class="action-primary">Salvar alterações</button></div></form></section></div>`;
 }
 
-const renderers = {agenda:agendaPage,pacientes:patientsPage,'novo-paciente':patientFormPage,'novo-agendamento':appointmentFormPage,paciente:patientPage,atendimentos:appointmentsPage,atendimento:()=>clinicalPage('atendimento'),prontuarios:recordsPage,prontuario:()=>clinicalPage('prontuario'),odontograma:odontogramPage,financeiro:financePage,estoque:inventoryPage,relatorios:reportsPage,equipe:teamPage,configuracoes:settingsPage};
+const renderers = {agenda:agendaPage,pacientes:patientsPage,'novo-paciente':patientFormPage,'novo-agendamento':appointmentFormPage,paciente:patientPage,atendimentos:appointmentsPage,atendimento:()=>clinicalPage('atendimento'),prontuarios:recordsPage,prontuario:()=>clinicalPage('prontuario'),odontograma:odontogramPage,financeiro:financePage,estoque:inventoryPage,relatorios:reportsPage,equipe:teamPage,configuracoes:settingsPage,perfil:profilePage};
 (renderers[page] || agendaPage)();
 
 // Cadastros pertencentes a páginas existentes acontecem no próprio contexto.
@@ -153,6 +224,92 @@ const toast = document.querySelector('#module-toast');
 function notify(message) { toast.querySelector('p').textContent = message; toast.classList.add('show'); clearTimeout(notify.timer); notify.timer=setTimeout(()=>toast.classList.remove('show'),3000); }
 document.addEventListener('click', event => { const trigger=event.target.closest('[data-toast]'); if(trigger){event.preventDefault();notify(trigger.dataset.toast);} });
 document.querySelectorAll('.prototype-form').forEach(form=>form.addEventListener('submit',event=>{event.preventDefault();if(!form.checkValidity()){form.reportValidity();return;}notify(form.dataset.success||'Alterações salvas.');if(form.dataset.redirect)setTimeout(()=>location.href=window.withAlmeidaTheme?.(form.dataset.redirect)||form.dataset.redirect,800);}));
+
+function profileInitials(name) {
+  return name.trim().split(/\s+/).slice(0, 2).map(part => part[0]).join('').toUpperCase() || 'JG';
+}
+
+function syncProfileChrome(name) {
+  document.querySelectorAll('.profile-copy strong').forEach(element => { element.textContent = name; });
+  document.querySelectorAll('.topbar .avatar').forEach(element => { element.textContent = profileInitials(name); });
+  const summaryName = document.querySelector('#profile-summary-name');
+  const summaryInitials = document.querySelector('#profile-avatar-preview span');
+  if (summaryName) summaryName.textContent = name;
+  if (summaryInitials) summaryInitials.textContent = profileInitials(name);
+}
+
+syncProfileChrome(readStoredValue(profileStorageKey, profileDefaults).displayName);
+
+if (page === 'perfil') {
+  const dataForm = document.querySelector('#profile-data-form');
+  const passwordForm = document.querySelector('#password-form');
+  const photoInput = document.querySelector('#profile-photo');
+  const photoPreview = document.querySelector('#profile-photo-preview');
+  const themeSelect = document.querySelector('#profile-theme');
+  const reminders = document.querySelector('#preference-reminders');
+  const dailySummary = document.querySelector('#preference-summary');
+
+  dataForm.addEventListener('submit', event => {
+    event.preventDefault();
+    if (!dataForm.checkValidity()) { dataForm.reportValidity(); return; }
+    const nextProfile = {
+      displayName: document.querySelector('#profile-display-name').value.trim(),
+      phone: document.querySelector('#profile-phone').value.trim()
+    };
+    try { localStorage.setItem(profileStorageKey, JSON.stringify(nextProfile)); } catch (_) { /* demonstração segue na página atual */ }
+    syncProfileChrome(nextProfile.displayName);
+    notify('Dados pessoais atualizados.');
+  });
+
+  passwordForm.addEventListener('submit', event => {
+    event.preventDefault();
+    const nextPassword = document.querySelector('#new-profile-password');
+    const confirmation = document.querySelector('#confirm-profile-password');
+    confirmation.setCustomValidity(nextPassword.value === confirmation.value ? '' : 'As senhas não coincidem.');
+    if (!passwordForm.checkValidity()) { passwordForm.reportValidity(); return; }
+    passwordForm.reset();
+    notify('Senha alterada com segurança.');
+  });
+  document.querySelector('#confirm-profile-password').addEventListener('input', event => event.target.setCustomValidity(''));
+
+  photoInput.addEventListener('change', () => {
+    const file = photoInput.files?.[0];
+    if (!file) return;
+    if (!['image/png', 'image/jpeg', 'image/webp'].includes(file.type) || file.size > 2 * 1024 * 1024) {
+      photoInput.value = '';
+      notify('Escolha uma imagem PNG, JPG ou WebP de até 2 MB.');
+      return;
+    }
+    const reader = new FileReader();
+    reader.addEventListener('load', () => {
+      photoPreview.src = reader.result;
+      photoPreview.alt = 'Pré-visualização da foto de perfil';
+      photoPreview.hidden = false;
+      notify('Foto pronta para pré-visualização.');
+    });
+    reader.readAsDataURL(file);
+  });
+
+  themeSelect.value = document.documentElement.dataset.theme || 'light';
+  themeSelect.addEventListener('change', () => {
+    if (document.documentElement.dataset.theme !== themeSelect.value) document.querySelector('.theme-toggle')?.click();
+    notify('Preferência de aparência atualizada.');
+  });
+
+  const saveNotificationPreferences = () => {
+    const values = { reminders: reminders.checked, dailySummary: dailySummary.checked };
+    try { localStorage.setItem(profilePreferenceKey, JSON.stringify(values)); } catch (_) { /* demonstração segue na página atual */ }
+    notify('Preferências de avisos atualizadas.');
+  };
+  reminders.addEventListener('change', saveNotificationPreferences);
+  dailySummary.addEventListener('change', saveNotificationPreferences);
+
+  if (location.hash) {
+    const scrollToProfileSection = () => document.querySelector(location.hash)?.scrollIntoView({ block: 'start' });
+    requestAnimationFrame(scrollToProfileSection);
+    window.addEventListener('load', () => setTimeout(scrollToProfileSection, 50), { once: true });
+  }
+}
 
 const search=document.querySelector('#table-search');
 search?.addEventListener('input',()=>document.querySelectorAll('#patients-body tr').forEach(row=>row.hidden=!row.dataset.name.includes(search.value.toLowerCase())));

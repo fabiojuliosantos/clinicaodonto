@@ -27,6 +27,16 @@ document.querySelectorAll('[data-icon]').forEach(element => {
 const date = new Intl.DateTimeFormat('pt-BR', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' }).format(new Date());
 document.querySelector('#current-date').textContent = date;
 
+try {
+  const savedProfile = JSON.parse(localStorage.getItem('almeida-user-profile') || '{}');
+  if (savedProfile.displayName) {
+    const displayName = String(savedProfile.displayName);
+    document.querySelector('.profile-copy strong').textContent = displayName;
+    document.querySelector('.topbar .avatar').textContent = displayName.trim().split(/\s+/).slice(0, 2).map(part => part[0]).join('').toUpperCase();
+    document.querySelector('#welcome-heading').firstChild.textContent = `Bom dia, ${displayName.trim().split(/\s+/)[0]} `;
+  }
+} catch (_) { /* mantém os dados demonstrativos padrão */ }
+
 const profileButton = document.querySelector('#profile-button');
 const profileMenu = document.querySelector('#profile-menu');
 profileButton.addEventListener('click', () => {
