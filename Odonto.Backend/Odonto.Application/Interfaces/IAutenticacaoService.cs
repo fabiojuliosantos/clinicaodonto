@@ -9,7 +9,15 @@ public interface IAutenticacaoService
     Task<ResultadoRegistroDTO> CadastrarUsuarioAsync(
         RegistrarDTO dto,
         CancellationToken cancellationToken = default);
-    Task<RetornoLoginDTO>Login(
-        LoginDTO dto, 
+    Task<RetornoLoginDTO> Login(
+        LoginDTO dto,
+        CancellationToken cancellationToken = default);
+
+    Task<bool> RedefinirSenhaAsync(
+        string email,
+        CancellationToken cancellationToken = default);
+
+    Task<bool> AtualizarSenhaAsync(
+        TrocarSenhaDTO dto,
         CancellationToken cancellationToken = default);
 }

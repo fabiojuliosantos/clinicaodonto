@@ -27,6 +27,14 @@ Somente o login é público. A criação e a gestão de contas de funcionários
 pertencem ao módulo Equipe e dependem de permissão no frontend e no backend. A
 atribuição inicial de permissões ainda precisa ser definida.
 
+### Recuperação de senha
+
+A solicitação de redefinição sempre retorna uma resposta genérica, exista ou
+não uma conta para o e-mail informado. O código possui seis dígitos, validade
+de dez minutos e é armazenado apenas como hash. Os endpoints possuem limitação
+de tentativas por endereço IP. As credenciais SMTP pertencem à configuração
+segura do ambiente e nunca ao repositório.
+
 ### Autonomia do agente
 
 Solicitações bem definidas podem ser implementadas e testadas diretamente.
@@ -38,7 +46,6 @@ impactos no backend devem ser discutidos antes da execução.
 - Definir a matriz de permissões dos cinco perfis internos.
 - Definir o provisionamento administrativo inicial.
 - Definir o fluxo de ativação de novos funcionários criados pelo módulo Equipe.
-- Definir recuperação e redefinição de senha.
 - Definir o contrato de autenticação e a estratégia de sessão no navegador.
 - Detalhar os requisitos e a ordem de implementação de cada módulo da V1.
 - Definir ambientes, hospedagem e processo de implantação.

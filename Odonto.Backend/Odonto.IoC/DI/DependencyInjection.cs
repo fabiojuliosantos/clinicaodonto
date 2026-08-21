@@ -36,7 +36,7 @@ public static class DependencyInjection
         // O IoC conecta o contrato do Application à implementação da Infrastructure.
         // Scoped mantém o serviço no mesmo ciclo de vida do DbContext e do UserManager.
         services.AddScoped<IAutenticacaoService, AutenticacaoService>();
-
+        services.AddScoped<IEmailService, EmailService>();
         return services;
     }
 }
