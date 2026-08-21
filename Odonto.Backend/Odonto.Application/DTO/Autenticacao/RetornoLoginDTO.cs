@@ -1,8 +1,8 @@
 namespace Odonto.Application.DTO.Autenticacao;
 
-public class RetornoLoginDTO
+public sealed class RetornoLoginDTO
 {
-    public string Token {get; set;}
-    public string RefreshToken {get; set;}
-    public DateTime Expiracao {get; set;}
+    public required string Token { get; init; }
+    public required string RefreshToken { get; init; }
+    public DateTime Expiracao { get; init; }
 }

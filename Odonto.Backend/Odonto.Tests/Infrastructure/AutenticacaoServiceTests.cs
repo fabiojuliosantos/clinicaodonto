@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -8,6 +9,7 @@ using Moq;
 using Odonto.Application.DTO;
 using Odonto.Application.DTO.Autenticacao;
 using Odonto.Application.Interfaces;
+using Odonto.Application;
 using Odonto.Infrastructure.Services;
 using Odonto.Infrastructure.User;
 using Xunit;
@@ -16,6 +18,45 @@ namespace Odonto.Tests.Infrastructure;
 
 public sealed class AutenticacaoServiceTests
 {
+    [Fact]
+    public async Task Login_UsuarioAtivo_EmiteIdentificadoresEstaveisNoJwt()
+    {
+        var usuario = CriarUsuario();
+        var fixture = CriarFixture();
+        fixture.UserManager.Setup(manager => manager.FindByEmailAsync(usuario.Email!)).ReturnsAsync(usuario);
+        fixture.UserManager.Setup(manager => manager.CheckPasswordAsync(usuario, "Senha123!")).ReturnsAsync(true);
+        fixture.UserManager.Setup(manager => manager.GetRolesAsync(usuario)).ReturnsAsync(["Recepcao"]);
+
+        var resultado = await fixture.Service.Login(
+            new LoginDTO { Email = usuario.Email!, Senha = "Senha123!" },
+            TestCancellationToken);
+
+        var jwt = new JwtSecurityTokenHandler().ReadJwtToken(resultado.Token);
+        Assert.Equal(usuario.Id, jwt.Claims.Single(claim => claim.Type == JwtRegisteredClaimNames.Sub).Value);
+        Assert.Equal(
+            usuario.FuncionarioId.ToString(),
+            jwt.Claims.Single(claim => claim.Type == ClaimsSistema.FuncionarioId).Value);
+        Assert.Contains(jwt.Claims, claim => claim.Type == "role" && claim.Value == "Recepcao");
+        Assert.DoesNotContain(jwt.Claims, claim => claim.Type == "Tipo");
+    }
+
+    [Fact]
+    public async Task Login_UsuarioInativo_RejeitaAntesDeValidarSenha()
+    {
+        var usuario = CriarUsuario();
+        usuario.Ativo = false;
+        var fixture = CriarFixture();
+        fixture.UserManager.Setup(manager => manager.FindByEmailAsync(usuario.Email!)).ReturnsAsync(usuario);
+
+        await Assert.ThrowsAsync<UnauthorizedAccessException>(() => fixture.Service.Login(
+            new LoginDTO { Email = usuario.Email!, Senha = "Senha123!" },
+            TestCancellationToken));
+
+        fixture.UserManager.Verify(
+            manager => manager.CheckPasswordAsync(It.IsAny<AppUser>(), It.IsAny<string>()),
+            Times.Never);
+    }
+
     [Fact]
     public async Task RedefinirSenhaAsync_UsuarioInexistente_NaoRevelaContaNemEnviaEmail()
     {
@@ -189,9 +230,10 @@ public sealed class AutenticacaoServiceTests
     private static AppUser CriarUsuario() => new()
     {
         Id = "usuario-1",
+        FuncionarioId = Guid.Parse("f7904533-c772-4955-811e-4f499ce681af"),
         UserName = "funcionario@exemplo.com",
         Email = "funcionario@exemplo.com",
-        Nome = "Funcionário"
+        Ativo = true
     };
 
     private static TrocarSenhaDTO CriarTrocaSenha(string token) => new()

@@ -1,6 +1,17 @@
-@Odonto.API_HostAddress = http://localhost:5154
+@Odonto.API_HostAddress = https://localhost:7120
+@Token = informe-o-token-retornado-pelo-login
 
-GET {{Odonto.API_HostAddress}}/weatherforecast/
+GET {{Odonto.API_HostAddress}}/api/me
 Accept: application/json
+Authorization: Bearer {{Token}}
 
 ###
+
+PATCH {{Odonto.API_HostAddress}}/api/me
+Content-Type: application/json
+Authorization: Bearer {{Token}}
+
+{
+  "nomeExibicao": "Fábio",
+  "telefone": "81999999999"
+}

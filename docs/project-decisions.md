@@ -27,6 +27,42 @@ Somente o login é público. A criação e a gestão de contas de funcionários
 pertencem ao módulo Equipe e dependem de permissão no frontend e no backend. A
 atribuição inicial de permissões ainda precisa ser definida.
 
+### Identidade e funcionário
+
+`AppUser` permanece um detalhe de infraestrutura do ASP.NET Core Identity e
+armazena somente informações da conta de acesso. Nome, nome de exibição,
+telefone de contato e referência da foto pertencem ao agregado `Funcionario`.
+Cada conta possui um vínculo obrigatório e único com um funcionário por meio de
+`FuncionarioId`. Cargo e permissões permanecem conceitos distintos: permissões
+são aplicadas pela autorização, enquanto cargo pertence ao domínio da equipe.
+
+### Meu perfil
+
+O usuário autenticado é identificado pelas claims assinadas `sub`, referente à
+conta do Identity, e `funcionario_id`, referente ao agregado `Funcionario`. O
+e-mail não é usado como identificador porque pode ser alterado. `GET /api/me`
+retorna o perfil e `PATCH /api/me` altera somente nome de exibição e telefone.
+Nome completo e e-mail são somente leitura nesse fluxo; alterações
+administrativas continuam pertencendo ao módulo Equipe. O envio e a remoção da
+foto serão tratados separadamente quando o armazenamento de arquivos for
+definido.
+
+### Autenticação JWT
+
+Tokens de acesso são validados por assinatura, emissor, audiência e validade. A
+chave deve ter pelo menos 32 bytes e ser fornecida por configuração segura do
+ambiente. Roles vêm do ASP.NET Core Identity e não são presumidas nem fixadas no
+token. Contas inativas não podem iniciar novas sessões.
+
+### Provisionamento administrativo inicial
+
+O primeiro funcionário e sua conta são criados por um seeder controlado na
+inicialização da API, não por endpoint público nem por `HasData()` do EF Core. O
+seeder somente executa com `Bootstrap:Enabled=true` e quando ainda não existe
+nenhuma conta. `Funcionario`, `AppUser` e role configurada são persistidos na
+mesma transação. As credenciais vêm de configuração segura do ambiente; após o
+primeiro acesso, o bootstrap deve ser desabilitado e a senha inicial removida.
+
 ### Recuperação de senha
 
 A solicitação de redefinição sempre retorna uma resposta genérica, exista ou

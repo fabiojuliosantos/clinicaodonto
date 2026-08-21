@@ -117,3 +117,21 @@ Cada funcionalidade deve ser desenvolvida de ponta a ponta, com regras documenta
 No momento, o repositório contém a estrutura inicial da solução, a configuração básica da API e o início da infraestrutura de persistência e identidade. Os módulos odontológicos ainda não foram implementados e as regras detalhadas do domínio ainda precisam ser definidas.
 
 As decisões arquiteturais, padrões de código e contexto do projeto estão documentados no diretório [`.forge`](.forge/README.md).
+
+## Configuração de autenticação
+
+A API exige `ConnectionStrings:SqlServer`, `Jwt:Key`, `Jwt:Issuer` e
+`Jwt:Audience` na inicialização. A chave JWT deve possuir pelo menos 32 bytes e
+não deve ser versionada. Em desenvolvimento, use User Secrets ou variáveis de
+ambiente, como `Jwt__Key` e `ConnectionStrings__SqlServer`.
+
+### Primeiro usuário
+
+O primeiro usuário pode ser provisionado na inicialização da API com as chaves
+`Bootstrap:Enabled`, `Bootstrap:NomeCompleto`, `Bootstrap:NomeExibicao`,
+`Bootstrap:Email`, `Bootstrap:Password` e `Bootstrap:Role`. O schema do banco
+deve estar atualizado antes da execução. O seeder cria funcionário, conta e
+role em uma única transação e é ignorado quando já existe qualquer usuário.
+
+Depois do provisionamento, defina `Bootstrap:Enabled` como `false`, remova
+`Bootstrap:Password` da configuração e altere a senha inicial.

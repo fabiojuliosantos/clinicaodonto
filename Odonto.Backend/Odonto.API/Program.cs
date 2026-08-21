@@ -1,5 +1,6 @@
 using System.Threading.RateLimiting;
 using Microsoft.AspNetCore.RateLimiting;
+using Odonto.API;
 using Odonto.IoC.DI;
 using Scalar.AspNetCore;
 
@@ -49,14 +50,20 @@ builder.Services.AddCors(options =>
     });
 });
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+builder.Services.AddOpenApi(OpenApiConfiguration.ConfigurarJwt);
 
 var app = builder.Build();
 
+await app.Services.ProvisionarAdministradorInicialAsync();
+
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Testing"))
 {
     app.MapOpenApi();
+}
+
+if (app.Environment.IsDevelopment())
+{
     app.MapScalarApiReference();
     app.MapGet("/", () => Results.Redirect("/scalar"));
 }
@@ -66,6 +73,8 @@ app.UseHttpsRedirection();
 app.UseCors("Frontend");
 
 app.UseRateLimiter();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

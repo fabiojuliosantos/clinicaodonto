@@ -1,7 +1,7 @@
 namespace Odonto.Application.DTO.Autenticacao;
 
-public class LoginDTO
+public sealed class LoginDTO
 {
-    public string Email { get; set; }
-    public string Senha { get; set; }
+    public required string Email { get; init; }
+    public required string Senha { get; init; }
 }

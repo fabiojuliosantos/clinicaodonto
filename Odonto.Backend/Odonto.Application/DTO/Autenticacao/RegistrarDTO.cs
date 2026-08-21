@@ -16,6 +16,5 @@ public sealed class RegistrarDTO
     [EmailAddress(ErrorMessage = "E-mail inválido")]
     public required string Email { get; init; }
 
-    [Required(ErrorMessage = "Nome é obrigatório")]
-    public required string Nome { get; init; }
+    public Guid FuncionarioId { get; init; }
 }

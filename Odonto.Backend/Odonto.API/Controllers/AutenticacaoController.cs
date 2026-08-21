@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using Odonto.Application.DTO.Autenticacao;
@@ -6,6 +7,7 @@ using Odonto.Application.Interfaces;
 namespace Odonto.API.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/[controller]")]
 public class AutenticacaoController : ControllerBase
 {
@@ -23,6 +25,7 @@ public class AutenticacaoController : ControllerBase
     }
 
     [HttpPost("login")]
+    [AllowAnonymous]
     public async Task<IActionResult> Login(
         [FromBody] LoginDTO dto,
         CancellationToken cancellationToken)
@@ -44,6 +47,7 @@ public class AutenticacaoController : ControllerBase
     }
 
     [HttpPost("redefinir-senha")]
+    [AllowAnonymous]
     [EnableRateLimiting("password-recovery")]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     public async Task<IActionResult> RedefinirSenha(
@@ -58,6 +62,7 @@ public class AutenticacaoController : ControllerBase
     }
 
     [HttpPost("atualizar-senha")]
+    [AllowAnonymous]
     [EnableRateLimiting("password-reset")]
     public async Task<IActionResult> AtualizarSenha(
         [FromBody] TrocarSenhaDTO dto,

@@ -3,11 +3,11 @@ using System.Globalization;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Odonto.Application;
 using Odonto.Application.DTO;
 using Odonto.Application.DTO.Autenticacao;
 using Odonto.Application.Interfaces;
@@ -31,6 +31,10 @@ public sealed class AutenticacaoService(
     {
         ArgumentNullException.ThrowIfNull(dto);
         cancellationToken.ThrowIfCancellationRequested();
+        if (dto.FuncionarioId == Guid.Empty)
+        {
+            throw new ArgumentException("O funcionário vinculado é obrigatório.", nameof(dto));
+        }
 
         // AppUser é um detalhe do ASP.NET Identity. A conversão acontece aqui para
         // manter o Application independente da Infrastructure.
@@ -38,7 +42,7 @@ public sealed class AutenticacaoService(
         {
             UserName = dto.UserName,
             Email = dto.Email,
-            Nome = dto.Nome,
+            FuncionarioId = dto.FuncionarioId,
             Ativo = true
         };
 
@@ -64,7 +68,7 @@ public sealed class AutenticacaoService(
 
         var usuario = await userManager.FindByEmailAsync(dto.Email);
 
-        if (usuario is null)
+        if (usuario is null || !usuario.Ativo)
         {
             throw new UnauthorizedAccessException("Email ou senha inválidos.");
         }
@@ -82,13 +86,14 @@ public sealed class AutenticacaoService(
         
         var claims = new List<Claim>
         {
+            new (JwtRegisteredClaimNames.Sub, usuario.Id),
             new (ClaimTypes.Name, usuario.UserName ?? string.Empty),
             new (ClaimTypes.Email, usuario.Email ?? string.Empty),
             new (JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new ("Tipo", "Admin") 
+            new (ClaimsSistema.FuncionarioId, usuario.FuncionarioId.ToString())
         };
         
-        foreach (var role in userRoles) claims.Add(new Claim(ClaimTypes.Role, role));
+        foreach (var role in userRoles) claims.Add(new Claim("role", role));
 
         var token = CriarToken(claims);
 
@@ -105,7 +110,7 @@ public sealed class AutenticacaoService(
     #endregion Login
 
     #region Criação de Token
-    protected JwtSecurityToken CriarToken(IEnumerable<Claim> claims)
+    private JwtSecurityToken CriarToken(IEnumerable<Claim> claims)
     {
         var chave = _config["Jwt:Key"] ?? throw new InvalidOperationException("Chave de criptografia não configurada.");
         
@@ -168,10 +173,9 @@ public sealed class AutenticacaoService(
                 return true;
             }
 
-            var nomeSeguro = HtmlEncoder.Default.Encode(usuario.Nome);
             var corpoEmail = new StringBuilder();
 
-            corpoEmail.Append($"<h1 style='color: #a29bfe;'>Olá, {nomeSeguro}!</h1>");
+            corpoEmail.Append("<h1 style='color: #a29bfe;'>Olá!</h1>");
             corpoEmail.Append("<h2 style='color: #222f3e;'>Não responda esse e-mail.</h2>");
             corpoEmail.Append("<p style='color: #222f3e;'>Recebemos uma solicitação para redefinir sua senha.</p>");
             corpoEmail.Append($"<p style='color: #222f3e;'>Seu código de verificação é: <strong>{token}</strong></p>");
