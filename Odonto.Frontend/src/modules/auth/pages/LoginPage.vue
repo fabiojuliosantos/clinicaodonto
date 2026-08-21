@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 import AuthShell from '@/modules/auth/components/AuthShell.vue'
 import { login } from '@/modules/auth/auth-api'
@@ -8,15 +8,15 @@ import { useAuthStore } from '@/modules/auth/auth-store'
 import { ApiRequestError } from '@/shared/api/http-client'
 
 const router = useRouter()
+const route = useRoute()
 const authStore = useAuthStore()
 const email = ref('')
 const password = ref('')
-const remember = ref(false)
 const showPassword = ref(false)
 const submitted = ref(false)
-const recoveryMessage = ref('')
 const apiError = ref('')
 const isSubmitting = ref(false)
+const passwordResetSucceeded = computed(() => route.query.passwordReset === 'success')
 
 const emailIsValid = computed(() => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value))
 const passwordIsValid = computed(() => password.value.length >= 6)
@@ -39,9 +39,6 @@ async function submitLogin() {
   }
 }
 
-function showRecoveryNotice() {
-  recoveryMessage.value = 'A recuperação de senha será disponibilizada após a integração com a API.'
-}
 </script>
 
 <template>
@@ -51,6 +48,8 @@ function showRecoveryNotice() {
         <h2>Acesse sua conta</h2>
         <p>Ambiente exclusivo para a equipe.</p>
       </div>
+
+      <p v-if="passwordResetSucceeded" class="notice success-notice" role="status">Senha atualizada. Você já pode entrar com a nova senha.</p>
 
       <form novalidate @submit.prevent="submitLogin">
         <label class="field" :class="{ invalid: submitted && !emailIsValid }">
@@ -72,11 +71,9 @@ function showRecoveryNotice() {
           <small class="error">A senha deve ter ao menos 6 caracteres.</small>
         </label>
 
-        <div class="form-options">
-          <label class="check"><input v-model="remember" type="checkbox" /><span></span>Lembrar de mim</label>
-          <button type="button" class="text-button" @click="showRecoveryNotice">Esqueci minha senha</button>
+        <div class="form-options single-action">
+          <RouterLink class="text-button" :to="{ name: 'password-recovery' }">Esqueci minha senha</RouterLink>
         </div>
-        <p v-if="recoveryMessage" class="inline-message" role="status">{{ recoveryMessage }}</p>
         <p v-if="apiError" class="notice error-notice" role="alert">{{ apiError }}</p>
         <button class="primary-button" type="submit" :disabled="isSubmitting"><span>{{ isSubmitting ? 'Entrando…' : 'Entrar no sistema' }}</span><b v-if="!isSubmitting" aria-hidden="true">→</b></button>
       </form>

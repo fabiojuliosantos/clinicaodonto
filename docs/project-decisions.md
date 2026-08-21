@@ -35,6 +35,15 @@ de dez minutos e é armazenado apenas como hash. Os endpoints possuem limitaçã
 de tentativas por endereço IP. As credenciais SMTP pertencem à configuração
 segura do ambiente e nunca ao repositório.
 
+### Sessão no frontend
+
+A sessão JWT é mantida no `sessionStorage`. Ela sobrevive a recarregamentos na
+mesma aba, mas é encerrada ao fechar a aba ou ao realizar logout. Sessões
+expiradas são descartadas pela guarda de navegação. O frontend não oferece
+"Lembrar de mim" enquanto não houver uma decisão específica sobre persistência
+duradoura. Uma futura migração para cookies `HttpOnly` exige alteração coordenada
+do contrato de autenticação no backend.
+
 ### Autonomia do agente
 
 Solicitações bem definidas podem ser implementadas e testadas diretamente.
@@ -46,6 +55,6 @@ impactos no backend devem ser discutidos antes da execução.
 - Definir a matriz de permissões dos cinco perfis internos.
 - Definir o provisionamento administrativo inicial.
 - Definir o fluxo de ativação de novos funcionários criados pelo módulo Equipe.
-- Definir o contrato de autenticação e a estratégia de sessão no navegador.
+- Evoluir o contrato de autenticação caso a sessão passe a usar cookies `HttpOnly`.
 - Detalhar os requisitos e a ordem de implementação de cada módulo da V1.
 - Definir ambientes, hospedagem e processo de implantação.
