@@ -1,6 +1,7 @@
 @import './tokens.css';
 @import './auth.css';
 @import './dashboard.css';
+@import './profile.css';
 
 *,
 *::before,
@@ -27,7 +28,9 @@ button {
 
 button:focus-visible,
 a:focus-visible,
-input:focus-visible {
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
   outline: 3px solid color-mix(in srgb, var(--color-primary) 35%, transparent);
   outline-offset: 3px;
 }
